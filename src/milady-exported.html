@@ -1,0 +1,570 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimal-ui,maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Anima Prototype">
+  <meta name="gitver" content="6bdf4d91c07bbf7a728e20a442885b3d7793cfc1">
+  <link rel="icon" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch.png">
+  <title>Anima</title>
+  <link href="/static/css/app.46284131.css" rel="preload" as="style">
+  <link href="/static/css/chunk-vendors.4e936b8e.css" rel="preload" as="style">
+  <link href="/static/js/app.daf10170.js" rel="preload" as="script">
+  <link href="/static/js/chunk-vendors.0c2edc43.js" rel="preload" as="script">
+  <link href="/static/css/chunk-vendors.4e936b8e.css" rel="stylesheet">
+  <link href="/static/css/app.46284131.css" rel="stylesheet">
+  <link href="https://www.googletagmanager.com" rel="preconnect">
+  <script type="text/javascript" async="" src="https://snap.licdn.com/li.lms-analytics/insight.min.js"></script>
+  <script src="https://js.hscollectedforms.net/collectedforms.js" type="text/javascript" id="CollectedForms-7205540"
+    crossorigin="anonymous" data-leadin-portal-id="7205540" data-leadin-env="prod" data-loader="hs-scriptloader"
+    data-hsjs-portal="7205540" data-hsjs-env="prod" data-hsjs-hublet="na1"></script>
+  <script src="https://js.hs-banner.com/7205540.js" type="text/javascript" id="cookieBanner-7205540"
+    data-cookieconsent="ignore" data-hs-ignore="true" data-loader="hs-scriptloader" data-hsjs-portal="7205540"
+    data-hsjs-env="prod" data-hsjs-hublet="na1"></script>
+  <script src="https://js.hs-analytics.net/analytics/1672264500000/7205540.js" type="text/javascript"
+    id="hs-analytics"></script>
+  <script src="https://js.hsadspixel.net/fb.js" type="text/javascript" id="hs-ads-pixel-7205540"
+    data-ads-portal-id="7205540" data-ads-env="prod" data-loader="hs-scriptloader" data-hsjs-portal="7205540"
+    data-hsjs-env="prod" data-hsjs-hublet="na1"></script>
+  <script async="" src="https://widget.intercom.io/widget/id43h9l8"></script>
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+  <script type="text/javascript" async=""
+    src="https://www.googletagmanager.com/gtag/js?id=G-DJKB1CDVEL&amp;l=dataLayer&amp;cx=c"></script>
+  <script type="text/javascript" async=""
+    src="https://www.googletagmanager.com/gtag/js?id=G-XGY5G85WSM&amp;l=dataLayer&amp;cx=c"></script>
+  <script src="https://connect.facebook.net/signals/config/1619126221749999?v=2.9.90&amp;r=stable" async=""></script>
+  <script src="https://connect.facebook.net/signals/plugins/identity.js?v=2.9.90" async=""></script>
+  <script type="text/javascript" async="" src="https://connect.facebook.net/en_US/fbevents.js"></script>
+  <script type="text/javascript" async="" src="https://snap.licdn.com/li.lms-analytics/insight.min.js"></script>
+  <script gtm="GTM-5GH35Q5" type="text/javascript" async=""
+    src="https://www.google-analytics.com/gtm/optimize.js?id=OPT-52RD5WG"></script>
+  <script type="text/javascript" async=""
+    src="https://www.gstatic.com/recaptcha/releases/5qcenVbrhOy8zihcc2aHOWD4/recaptcha__en.js" crossorigin="anonymous"
+    integrity="sha384-0UmWi2drUOFtiIl9tXA3B9fWn6Oz5K3vecq0zC8vAzesBQkPzPdlJKXnimDbxieW"></script>
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-105546425-1" charset="utf-8"></script>
+  <style type="text/css">
+    .resize-observer[data-v-8859cc6c] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: transparent;
+      pointer-events: none;
+      display: block;
+      overflow: hidden;
+      opacity: 0
+    }
+
+    .resize-observer[data-v-8859cc6c] object {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1
+    }
+  </style>
+  <script async="" src="https://static.hotjar.com/c/hotjar-2007135.js?sv=6"></script>
+  <script type="text/javascript" async=""
+    src="https://www.google.com/recaptcha/api.js?render=6LdRecYUAAAAAIUu1SE0LGeo3SN9wrVmohJ0Zcyg"></script>
+  <script src="https://js.stripe.com/v3"></script>
+  <script
+    src="https://www.paypal.com/tagmanager/pptm.js?id=projects.animaapp.com&amp;t=xo&amp;v=5.0.344&amp;source=payments_sdk&amp;client_id=AQYQAM0uvRq60uRfxz3jEHJ6tkVdwDyACkrO1TshmnhFwJoyaUYW6BP-8u0d7l9XR4iTHOjxLQAP3DYL&amp;vault=true"
+    id="xo-pptm" async=""></script>
+  <script async="" src="https://script.hotjar.com/modules.352fddba5b21bbfc3a08.js" charset="utf-8"></script>
+  <style type="text/css">
+    iframe#_hjRemoteVarsFrame {
+      display: none !important;
+      width: 1px !important;
+      height: 1px !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  </style>
+  <script type="text/javascript" async="" src="https://www.paypalobjects.com/muse/muse.js"></script>
+</head>
+
+<body theme="light"><noscript><strong>We're sorry but Anima client doesn't work properly without JavaScript enabled.
+      Please enable it to continue.</strong> <img height="1" width="1" style="display: none"
+      src="https://www.facebook.com/tr?id=1619126221749999&ev=PageView&noscript=1"> <img height="1" width="1"
+      style="display: none"
+      src="https://q.quora.com/_/ad/61e44f95f2bd43958d9a12b669051d46/pixel?tag=ViewContent&noscript=1"></noscript>
+  <div data-v-f740cbce="" id="app">
+    <div data-v-f740cbce="" class="content">
+      <div data-v-f740cbce="" data-cy="toast" class="toasts" style="z-index: -1;"></div>
+      <!----><!----><!----><!----><!---->
+      <div data-v-f740cbce="" style="height: calc(100vh - 60px); transition: all 0.2s ease 0s;">
+        <div data-v-5525ccc7="" data-v-f740cbce="" class="omniview-container">
+          <div data-v-5525ccc7="" class="wrapper" style="">
+            <header data-v-e35e8162="" data-v-5525ccc7="" class="header"
+              style="top: 60px; height: var(--omniview-topbar-height-mobile); min-height: var(--omniview-topbar-height-mobile); transition: all 0.2s ease 0s;">
+              <div data-v-561cc486="" data-v-e35e8162="" class="navigator"
+                style="top: var(--omniview-topbar-height-mobile); --expand-height:400px;">
+                <div data-v-561cc486="" class="wrapper" style="padding: 20px; display: none;">
+                  <div data-v-561cc486="" class="expand-button">
+                    <div data-v-561cc486="" class="svg-container"
+                      style="width: 24px; height: 24px; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="100%" height="100%" class="svg-class">
+                        <path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z"></path>
+                      </svg></div>
+                  </div>
+                  <div data-v-561cc486="" class="close-button">
+                    <div data-v-561cc486="" class="svg-container"
+                      style="width: 20px; height: 20px; fill: currentcolor;"><svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" stroke="currentColor" height="100%" width="100%" class="svg-class">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12">
+                        </path>
+                      </svg></div>
+                  </div>
+                  <div data-v-561cc486="" class="screens-number"> 3 Screens </div>
+                  <div data-v-561cc486="" class="list-wrapper" style="overflow: auto hidden;">
+                    <div data-v-561cc486="" class="cards" style="flex-wrap: nowrap;">
+                      <div data-v-561cc486="" class="card" style="margin: 0px 10px 0px 0px; width: 270px;">
+                        <div data-v-561cc486="" class="thumb-container" style="height: 203px;">
+                          <div data-v-561cc486="" class="thumb-overlay"></div>
+                          <div data-v-561cc486="" class="thumb-image-container"><img data-v-561cc486=""
+                              src="https://image-cdn.animaapp.com/projects/63acbb569d2ac8485f5b2408/components/63acbbaa5f14cffa8d993ead/thumbnails/63acbbaa5f14cffa8d993ead-640x640.png?d=266x199&amp;p=fullwidth"
+                              class="thumb"></div>
+                        </div>
+                        <div data-v-561cc486="" class="screen-title">Gallery Overlay</div>
+                        <div data-v-561cc486="" class="screen-breakpoint"> desktop </div>
+                      </div>
+                      <div data-v-561cc486="" class="card selected" style="margin: 0px 10px 0px 0px; width: 270px;">
+                        <div data-v-561cc486="" class="thumb-container" style="height: 203px;">
+                          <div data-v-561cc486="" class="thumb-overlay"></div>
+                          <div data-v-561cc486="" class="thumb-image-container"><img data-v-561cc486=""
+                              src="https://anima-uploads.s3.us-west-2.amazonaws.com/thumbnails/63acbb19271484f4b798c677_177-2_470319c6.png?d=266x199&amp;p=fullwidth"
+                              class="thumb"></div>
+                        </div>
+                        <div data-v-561cc486="" class="screen-title">MacBook Pro 16" - FrontEnd</div>
+                        <div data-v-561cc486="" class="screen-breakpoint"> desktop </div>
+                      </div>
+                      <div data-v-561cc486="" class="card" style="margin: 0px 10px 0px 0px; width: 270px;">
+                        <div data-v-561cc486="" class="thumb-container" style="height: 203px;">
+                          <div data-v-561cc486="" class="thumb-overlay"></div>
+                          <div data-v-561cc486="" class="thumb-image-container"><img data-v-561cc486=""
+                              src="https://anima-uploads.s3.us-west-2.amazonaws.com/thumbnails/63acbb19271484f4b798c677_267-222_3bd7b93c.png?d=266x199&amp;p=fullwidth"
+                              class="thumb"></div>
+                        </div>
+                        <div data-v-561cc486="" class="screen-title">MacBook Pro 16" - FrontEnd CONNECTED with Open
+                          Orders</div>
+                        <div data-v-561cc486="" class="screen-breakpoint"> desktop </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-v-e35e8162="" class="logo router-link-active">
+                <div data-v-e35e8162="">
+                  <div class="svg-container" style="width: 22px; height: 25px;"><svg width="100%" height="100%"
+                      viewBox="0 0 22 25" fill="none" xmlns="http://www.w3.org/2000/svg" class="svg-class">
+                      <path
+                        d="M0.160833 -0.0004672H21.6908C21.7179 -0.000908623 21.7446 0.00558879 21.7684 0.0184054C21.7923 0.031222 21.8124 0.0499298 21.8269 0.0727445C21.8415 0.0955592 21.8499 0.12172 21.8515 0.148729C21.853 0.175739 21.8477 0.202697 21.8358 0.227032C19.9798 3.97511 17.182 7.17686 13.7167 9.5187C8.11917 13.2954 2.4825 13.6854 0.1625 13.7062C0.141319 13.7066 0.120263 13.7029 0.100566 13.6951C0.0808682 13.6873 0.0629254 13.6756 0.0477905 13.6608C0.0326557 13.646 0.0206335 13.6283 0.012427 13.6087C0.0042205 13.5892 -4.64251e-06 13.5682 3.82798e-09 13.547V0.1587C-1.14985e-06 0.137657 0.00417026 0.116822 0.0122732 0.0974014C0.0203761 0.077981 0.0322499 0.0603604 0.0472069 0.0455584C0.0621639 0.0307564 0.0799072 0.0190678 0.099411 0.0111676C0.118915 0.00326746 0.139791 -0.000687546 0.160833 -0.0004672Z"
+                        fill="#FF6250"></path>
+                      <path
+                        d="M4.8075 24.9993C7.46261 24.9993 9.615 22.8469 9.615 20.1918C9.615 17.5367 7.46261 15.3843 4.8075 15.3843C2.15239 15.3843 0 17.5367 0 20.1918C0 22.8469 2.15239 24.9993 4.8075 24.9993Z"
+                        fill="#FFDF90"></path>
+                      <path
+                        d="M14.6349 24.7146C13.2749 24.1954 12.5515 22.6988 13.0124 21.3738L16.6415 11.0171C17.1065 9.69209 18.5857 9.03959 19.9457 9.55876C21.3057 10.0788 22.029 11.5746 21.5682 12.9004L17.939 23.2571C17.474 24.5821 15.9949 25.2354 14.6349 24.7146Z"
+                        fill="#3366FF"></path>
+                    </svg> </div>
+                </div>
+              </div>
+              <div data-v-e35e8162="" class="titles" style="font-size: 12px;">
+                <div data-v-e35e8162="" class="project-screen">
+                  <div data-v-e35e8162="" class="project-title router-link-active">sdsd</div>
+                  <div data-v-e35e8162="" class="svg-container t-icon"
+                    style="width: 16px; height: 16px; fill: currentcolor;"><svg viewBox="0 0 37 36"
+                      xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" class="svg-class">
+                      <path
+                        d="M23.452 17.617 14.879 8.56a.494.494 0 0 0-.728 0 .563.563 0 0 0 0 .768L22.36 18l-8.208 8.67a.563.563 0 0 0 0 .769.489.489 0 0 0 .724 0l8.573-9.057a.562.562 0 0 0 .004-.765z">
+                      </path>
+                    </svg></div>
+                  <div data-v-e35e8162="" id="netflix-menu-trigger" class="screen-title"><span
+                      data-v-e35e8162="">MacBook Pro 16" - FrontEnd</span>
+                    <div data-v-e35e8162="" class="svg-container icon"
+                      style="width: 10px; height: 10px; fill: currentcolor;"><svg width="100%" height="100%"
+                        xmlns="http://www.w3.org/2000/svg" class="svg-class">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M3.375 3.5a1 1 0 0 0 1.25 0l2.149-1.72c.738-.59.32-1.78-.625-1.78H1.851C.906 0 .488 1.19 1.226 1.78l2.15 1.72Z">
+                        </path>
+                      </svg></div>
+                  </div>
+                </div>
+                <div data-v-e35e8162="" class="info has-tooltip" data-original-title="null" style="display: none;">
+                  Screen 2 of 3. Last updated 6 minutes ago </div>
+              </div><!---->
+            </header>
+            <main data-v-5525ccc7="" id="omniview-content" style="padding-top: var(--omniview-topbar-height-mobile);">
+              <div data-v-5525ccc7="" class="main-content" style="padding-bottom: 0px; height: 100%;">
+                <div data-v-d08a86e0="" data-v-5525ccc7="" class="iframe-wrapper">
+                  <div data-v-d08a86e0="" class="overlay" style="pointer-events: none;"></div>
+                  <div data-v-0f5aa832="" data-v-d08a86e0="" class="w-full flex items-center justify-center"
+                    style="height: 100%; display: none;">
+                    <div data-v-54326ef6="" data-v-0f5aa832="" class="two-dots"
+                      style="margin: 50px auto; --dot-size:28px; --container-size:68px;">
+                      <div data-v-54326ef6="" class="dot1"></div>
+                      <div data-v-54326ef6="" class="dot2"></div>
+                    </div>
+                    <div data-v-0f5aa832="" class="name-border" style="width: 0px; height: 0px; display: none;"><span
+                        data-v-0f5aa832="" class="name"></span></div><!----><iframe data-v-0f5aa832=""
+                      name="componentIframe" id="componentIframe" frameborder="0"
+                      style="width: 0px; height: 0px; max-height: 100%; z-index: 10; display: none;"></iframe>
+                  </div>
+                  <div data-v-d08a86e0="" class="iframe-container">
+                    <div data-v-d08a86e0="" class="full-screen-toggle">
+                      <div data-v-d08a86e0="" class="svg-container"
+                        style="width: 20px; height: 20px; fill: currentcolor;"><svg width="100%" height="100%"
+                          fill="none" xmlns="http://www.w3.org/2000/svg" class="svg-class">
+                          <path
+                            d="M17.429 20h-4.643a.715.715 0 0 1 0-1.429h4.643a1.143 1.143 0 0 0 1.142-1.142v-4.643a.715.715 0 0 1 1.429 0v4.643A2.579 2.579 0 0 1 17.429 20zm-9.5-.714a.714.714 0 0 0-.715-.715H2.571A1.143 1.143 0 0 1 1.43 17.43v-4.643a.714.714 0 0 0-1.429 0v4.643A2.579 2.579 0 0 0 2.571 20h4.643a.714.714 0 0 0 .715-.714zm-6.5-12.072V2.571A1.143 1.143 0 0 1 2.57 1.43h4.643a.714.714 0 1 0 0-1.429H2.571A2.579 2.579 0 0 0 0 2.571v4.643a.714.714 0 1 0 1.429 0zm18.571 0V2.571A2.579 2.579 0 0 0 17.429 0h-4.643a.714.714 0 0 0 0 1.429h4.643A1.143 1.143 0 0 1 18.57 2.57v4.643a.714.714 0 0 0 1.429 0z"
+                            fill="#fff" opacity=".3"></path>
+                        </svg></div>
+                    </div>
+                    <div data-v-d08a86e0="" id="resizable-iframe" class="resizable-iframe"
+                      style="height: 100%; width: 100%; max-width: 776.364px; min-width: 1509px;">
+                      <div data-v-d08a86e0="" class="pop-out-container" style="display: none;">
+                        <div data-v-d08a86e0="" class="compare-controlls"><span data-v-d08a86e0=""
+                            style="width: 42px;">50%</span>
+                          <div data-v-d08a86e0="" class="slidecontainer">
+                            <div data-v-d08a86e0="" class="svg-container has-tooltip" data-original-title="null"
+                              style="width: 20px; height: 20px; fill: currentcolor; flex-shrink: 0;"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" class="svg-class">
+                                <path
+                                  d="m2.513 12.833 9.022 5.04a.995.995 0 0 0 .973.001l8.978-5a1 1 0 0 0-.002-1.749l-9.022-5a1 1 0 0 0-.968-.001l-8.978 4.96a1 1 0 0 0-.003 1.749zm9.464-4.69 6.964 3.859-6.917 3.853-6.964-3.89 6.917-3.822z">
+                                </path>
+                                <path
+                                  d="m3.485 15.126-.971 1.748 9 5a1 1 0 0 0 .971 0l9-5-.971-1.748L12 19.856l-8.515-4.73zM16 4h6v2h-6z">
+                                </path>
+                              </svg></div>
+                            <div data-v-d08a86e0="" class="svg-container has-tooltip" data-original-title="null"
+                              style="width: 20px; height: 20px; fill: currentcolor; flex-shrink: 0;"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" class="svg-class">
+                                <path
+                                  d="m21.484 11.125-9.022-5a1 1 0 0 0-.968-.001l-8.978 4.96a1 1 0 0 0-.003 1.749l9.022 5.04a.995.995 0 0 0 .973.001l8.978-5a1 1 0 0 0-.002-1.749zm-9.461 4.73-6.964-3.89 6.917-3.822 6.964 3.859-6.917 3.853z">
+                                </path>
+                                <path
+                                  d="M12 22a.994.994 0 0 0 .485-.126l9-5-.971-1.748L12 19.856l-8.515-4.73-.971 1.748 9 5A1 1 0 0 0 12 22zm8-20h-2v2h-2v2h2v2h2V6h2V4h-2z">
+                                </path>
+                              </svg></div>
+                          </div>
+                          <div data-v-d08a86e0="" class="svg-container"
+                            style="width: 20px; height: 20px; fill: currentcolor; cursor: pointer;"><svg
+                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" height="100%"
+                              width="100%" class="svg-class">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18 18 6M6 6l12 12"></path>
+                            </svg></div>
+                        </div>
+                        <div data-v-d08a86e0="" class="pop-out" style="opacity: 0.5;"><img data-v-d08a86e0=""
+                            src="https://anima-uploads.s3.us-west-2.amazonaws.com/thumbnails/63acbb19271484f4b798c677_177-2_470319c6.png"
+                            alt=""></div>
+                      </div><span data-v-d08a86e0="" class="">
+                        <div data-v-d08a86e0="" class="tools"><!---->
+                          <div data-v-d08a86e0="" class="canvas-resize-handle" style="display: none;">
+                            <div data-v-d08a86e0="" class="handle right-handle"
+                              style="width: 14px; --handle-before-left:-3px;">
+                              <div data-v-d08a86e0="" class="gutter-handle"></div>
+                              <div data-v-d08a86e0="" id="tab-handle" class="tab-handle"></div>
+                            </div>
+                            <div data-v-d08a86e0="" class="handle left-handle"></div>
+                          </div>
+                        </div><iframe data-v-d08a86e0="" data-cy="main-iframe" data-hj-allow-iframe="" id="iframeId"
+                          name="iframeName" frameborder="0"
+                          src="https://sparkling-thunder-5375.animaapp.io/macbook-pro-16-frontend?t=_8eeeba41&amp;handoff=1"
+                          class="iframe"
+                          style="width: calc(100%); transform: scaleX(1) scaleY(1); transform-origin: left top; max-height: 100%; height: 100%;"></iframe>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div><!----><!----><!---->
+        </div>
+      </div>
+    </div>
+    <div data-v-f740cbce=""><!----></div>
+  </div>
+  <script src="/static/js/chunk-vendors.0c2edc43.js"></script>
+  <script src="/static/js/app.daf10170.js"></script>
+  <script defer="" src="https://www.googletagmanager.com/gtm.js?id=GTM-5GH35Q5"></script>
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AQYQAM0uvRq60uRfxz3jEHJ6tkVdwDyACkrO1TshmnhFwJoyaUYW6BP-8u0d7l9XR4iTHOjxLQAP3DYL&amp;vault=true&amp;disable-funding=credit,card"
+    async="" data-uid-auto="uid_smbbqkqqocfboggisejljfrdcclpzf"></script><canvas
+    style="position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; z-index: 1000; pointer-events: none;"
+    width="1919.995041614771" height="977.000221175909"></canvas>
+  <script type="text/javascript"
+    id="">window.addEventListener("message", function (a) { "hsFormCallback" === a.data.type && "onFormSubmitted" === a.data.eventName && window.dataLayer.push({ event: "hubspot-form-success", "hs-form-guid": a.data.id }); });</script>
+  <script type="text/javascript"
+    id="">(function () { var a = google_tag_manager["GTM-5GH35Q5"].macro(7) - 0 + 1, b = ".animaapp.com"; document.cookie = "jcoPageCount\x3d" + a + ";domain\x3d" + b + ";path\x3d/;"; })();</script>
+  <script type="text/javascript"
+    id="">(function () { var b = new URLSearchParams(window.location.search), c = document.querySelectorAll("a"); c.forEach(function (a) { console.log("Add utms: " + a.href); -1 === a.href.indexOf("?") ? a.href += "?" + b.toString() : a.href += "\x26" + b.toString(); }); })();</script>
+  <iframe name="__privateStripeController5061" frameborder="0" allowtransparency="true" scrolling="no"
+    role="presentation" allow="payment *"
+    src="https://js.stripe.com/v3/controller-38d48831d01a3f780c9ca24e2035c266.html#apiKey=pk_live_wkyiAyziXNoHUxiyNXk6aaSy&amp;stripeJsId=e486fa59-6a2a-4113-9b6e-a804427b9827&amp;stripeJsLoadTime=1672264614036&amp;referrer=https%3A%2F%2Fprojects.animaapp.com%2Fteam%2Fjacobs-team-win3zqm%2Fproject%2FJO298WO%2Fscreen%2Fmacbook-pro-16-frontend%2Fomniview%3Fplatform%3Dfigma%26utm_source%3Dfigma&amp;controllerId=__privateStripeController5061"
+    aria-hidden="true" tabindex="-1"
+    style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; visibility: hidden !important; position: fixed !important; height: 1px !important; pointer-events: none !important; user-select: none !important;"></iframe><iframe
+    name="_hjRemoteVarsFrame" title="_hjRemoteVarsFrame" tabindex="-1" aria-hidden="true" id="_hjRemoteVarsFrame"
+    src="https://vars.hotjar.com/box-5e66f98b4ee957db209dc6f63e3d59dd.html"
+    style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe><iframe
+    id="_hjSafeContext_7163456" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="about:blank"
+    style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe>
+  <div>
+    <div class="grecaptcha-badge" data-style="bottomright"
+      style="width: 256px; height: 60px; position: fixed; visibility: hidden; display: block; transition: right 0.3s ease 0s; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;">
+      <div class="grecaptcha-logo"><iframe title="reCAPTCHA"
+          src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LdRecYUAAAAAIUu1SE0LGeo3SN9wrVmohJ0Zcyg&amp;co=aHR0cHM6Ly9wcm9qZWN0cy5hbmltYWFwcC5jb206NDQz&amp;hl=en&amp;v=5qcenVbrhOy8zihcc2aHOWD4&amp;size=invisible&amp;cb=z9jacun3j563"
+          width="256" height="60" role="presentation" name="a-hcy8y0n670sf" frameborder="0" scrolling="no"
+          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe>
+      </div>
+      <div class="grecaptcha-error"></div><textarea id="g-recaptcha-response-100000" name="g-recaptcha-response"
+        class="g-recaptcha-response"
+        style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none; max-height: unset;"
+        title="overall type: UNKNOWN_TYPE
+server type: NO_SERVER_DATA
+heuristic type: UNKNOWN_TYPE
+label:
+parseable name: g-recaptcha-response
+section: _0_66
+field signature: 3309787731
+form signature: 16124243795248100310
+form signature in host form: 16124243795248100310
+field frame token: 8A09140A15AEA2F3F9EFDBC5FFD4059C
+form renderer id: 0
+field renderer id: 24" autofill-information="overall type: UNKNOWN_TYPE
+server type: NO_SERVER_DATA
+heuristic type: UNKNOWN_TYPE
+label:
+parseable name: g-recaptcha-response
+section: _0_66
+field signature: 3309787731
+form signature: 16124243795248100310
+form signature in host form: 16124243795248100310
+field frame token: 8A09140A15AEA2F3F9EFDBC5FFD4059C
+form renderer id: 0
+field renderer id: 24" autofill-prediction="UNKNOWN_TYPE"></textarea>
+    </div><iframe style="display: none;"></iframe>
+  </div><iframe name="__privateStripeMetricsController5060" frameborder="0" allowtransparency="true" scrolling="no"
+    role="presentation" allow="payment *"
+    src="https://js.stripe.com/v3/m-outer-da551b803dc55c2dc0b4b9bdfeabba62.html#url=https%3A%2F%2Fprojects.animaapp.com%2Fteam%2Fjacobs-team-win3zqm%2Fproject%2FJO298WO%2Fscreen%2Fmacbook-pro-16-frontend%2Fomniview%3Fplatform%3Dfigma%26utm_source%3Dfigma&amp;title=Anima&amp;referrer=&amp;muid=014dbb1a-e2cb-45ad-888f-4a0f702f0a45c4cff6&amp;sid=0f807f87-a0b2-49d7-a277-b1f141bd216bb15108&amp;version=6&amp;preview=false"
+    aria-hidden="true" tabindex="-1"
+    style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; visibility: hidden !important; position: fixed !important; height: 1px !important; pointer-events: none !important; user-select: none !important;"></iframe><iframe
+    id="intercom-frame"
+    style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;"
+    aria-hidden="true" tabindex="-1" title="Intercom"></iframe>
+  <div class="intercom-lightweight-app">
+    <style id="intercom-lightweight-app-style" type="text/css">
+      @keyframes intercom-lightweight-app-launcher {
+        from {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes intercom-lightweight-app-gradient {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes intercom-lightweight-app-messenger {
+
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+      }
+
+      .intercom-lightweight-app {
+        position: fixed;
+        z-index: 1;
+        width: 0;
+        height: 0;
+        font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+      }
+
+      .intercom-lightweight-app-gradient {
+        position: fixed;
+        z-index: 2;
+        width: 500px;
+        height: 500px;
+        bottom: 0;
+        right: 0;
+        pointer-events: none;
+        background: radial-gradient(ellipse at bottom right,
+            rgba(29, 39, 54, 0.16) 0%,
+            rgba(29, 39, 54, 0) 72%);
+        animation: intercom-lightweight-app-gradient 200ms ease-out;
+      }
+
+      .intercom-lightweight-app-launcher {
+        position: fixed;
+        z-index: 3;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none;
+        bottom: 20px;
+        right: 20px;
+        max-width: 60px;
+        width: 60px;
+        max-height: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #ff6666;
+        cursor: pointer;
+        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+        transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+        box-sizing: content-box;
+      }
+
+
+
+
+      .intercom-lightweight-app-launcher:focus {
+        outline: none;
+
+
+      }
+
+      .intercom-lightweight-app-launcher-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60px;
+        height: 60px;
+        transition: transform 100ms linear, opacity 80ms linear;
+      }
+
+      .intercom-lightweight-app-launcher-icon-open {
+
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+
+      }
+
+      .intercom-lightweight-app-launcher-icon-open svg {
+        width: 28px;
+        height: 32px;
+      }
+
+      .intercom-lightweight-app-launcher-icon-open svg path {
+        fill: rgb(255, 255, 255);
+      }
+
+      .intercom-lightweight-app-launcher-icon-self-serve {
+
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+
+      }
+
+      .intercom-lightweight-app-launcher-icon-self-serve svg {
+        height: 56px;
+      }
+
+      .intercom-lightweight-app-launcher-icon-self-serve svg path {
+        fill: rgb(255, 255, 255);
+      }
+
+      .intercom-lightweight-app-launcher-custom-icon-open {
+        max-height: 36px;
+        max-width: 36px;
+
+
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+
+      }
+
+      .intercom-lightweight-app-launcher-icon-minimize {
+
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+
+      }
+
+      .intercom-lightweight-app-launcher-icon-minimize svg path {
+        fill: rgb(255, 255, 255);
+      }
+
+      .intercom-lightweight-app-messenger {
+        position: fixed;
+        z-index: 3;
+        overflow: hidden;
+        background-color: white;
+        animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1.2, 1, 1);
+        transform-origin: bottom right;
+
+        width: 376px;
+        height: calc(100% - 40px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 20px;
+        box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+
+        border-radius: 8px;
+      }
+
+      .intercom-lightweight-app-messenger-header {
+        height: 75px;
+        border-bottom: none;
+        background: linear-gradient(135deg,
+            rgb(90, 108, 125) 0%,
+            rgb(47, 57, 66) 100%);
+      }
+
+      .intercom-lightweight-app-messenger-footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        min-height: 81px;
+        background: #fff;
+        font-size: 14px;
+        line-height: 21px;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+      }
+
+      @media print {
+        .intercom-lightweight-app {
+          display: none;
+        }
+      }
+    </style>
+  </div>
+  <script src="//js.hs-scripts.com/7205540.js" async="" defer="" id="hs-script-loader"></script><iframe
+    owner="archetype" title="archetype" style="display: none; visibility: hidden;"></iframe>
+  <script src="//js.hs-scripts.com/7205540.js" async="" defer="" id="hs-script-loader"></script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,700,300,400italic,700italic,300italic");
+/* The following line is used to measure usage of this code in production. For more info see our usage billing page */
+@import url("https://px.animaapp.com/63acc08db4e7c2867ec15fff.63acc08e4defd713cb0d3bf5.9vSlZaN.vcp.png");
+
+@font-face {
+  font-family: "Comic Sans MS-Bold";
+  font-style: normal;
+  font-weight: 700;
+  src: url("https://anima-uploads.s3.amazonaws.com/5c4253c2efde55000b27268e/Comic Sans MS Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Comic Sans MS-Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://anima-uploads.s3.amazonaws.com/projects/63ac687b49dadf7e920ca5c8/fonts/alata-regular.ttf")
+    format("truetype");
+}
+
+
+.screen a {
+  display: contents;
+  text-decoration: none;
+}
+
+.container-center-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* pointer-events: none; */
+  width: 100%;
+}
+
+.container-center-horizontal > * {
+  /* flex-shrink: 0; */
+  /* pointer-events: auto; */
+}
+
+.overlay-base {
+  display: none;
+  height: 100%;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.overlay-base.animate-appear {
+  align-items: center;
+  animation: reveal 0.3s ease-in-out 1 normal forwards;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+}
+
+.overlay-base.animate-disappear {
+  animation: reveal 0.3s ease-in-out 1 reverse forwards;
+  display: block;
+  opacity: 1;
+  /* pointer-events: none; */
+}
+
+.overlay-base.animate-disappear * {
+  /* pointer-events: none; */
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.valign-text-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,0 +1,32 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "*/.js",
+    "vite.config.*", "vitest.config.*",
+  ],
+
+  "compilerOptions": {
+    "types": ["node"],
+    // "strict": true,
+  "esModuleInterop": true,
+  "allowSyntheticDefaultImports": true,
+  "module": "ESNext",
+    "baseUrl": "",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@@firestore": [
+        "src/firestore/db.tstore.tstore.ts"
+      ]
+    }
+  },
+  "references": [
+    {
+      "path": "./tsconfig.config.json"
+    }
+  ]
+}
