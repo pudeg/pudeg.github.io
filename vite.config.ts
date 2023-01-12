@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     host: true
   },
-  base: "/milady-moto/",
+  base: "/",
   plugins: [vue()],
   resolve: {
     alias: {
