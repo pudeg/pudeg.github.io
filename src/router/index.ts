@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView2 from "@/views/HomeView2.vue";
-import { macBookPro16FrontEndCONNECTEDWithOpData, macBookPro16FrontEndData, galleryOverlayData } from "@/data/home-view-data";
+import { macBookPro16FrontEndData, } from "@/data/home-view-data";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

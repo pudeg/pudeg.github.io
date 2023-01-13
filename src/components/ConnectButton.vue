@@ -18,8 +18,7 @@ const handleConnectClick = async () => {
 
 <template>
   <div id="connect-container">
-    <button id="connect-button" :class="backgroundColor"
-      @click="handleConnectClick">
+    <button id="connect-button" :class="backgroundColor" @click="handleConnectClick">
       {{ connectButtonContent }}</button>
   </div>
 </template>
@@ -46,6 +45,10 @@ const handleConnectClick = async () => {
   font-weight: 600;
   font-size: 20px;
   font-family: var(--font-family-ibm_plex_mono);
+}
+
+#connect-button:hover {
+  filter: contrast(1.4) saturate(2);
 }
 
 #connect-button.gray {

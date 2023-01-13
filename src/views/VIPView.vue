@@ -1,19 +1,14 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/user.store';
-import { firestore } from '@/firestore/firestore';
 import { ref } from 'vue';
 import ShippingForm from '@/components/ShippingForm.vue';
 import AppMenu from '@/components/AppMenu.vue';
 
-const userSubmitted = ref(false)
-const showMenu = ref(false)
-// const userSubmitted = ref(false)
+const userSubmitted = ref(false);
 
-const userStore = useUserStore()
+const showMenu = ref(false);
 
-const openMenu = () => {
-  showMenu.value = !showMenu.value;
-}
+const userStore = useUserStore();
 
 const toggleMenu = () => {
   console.log('menu click');
@@ -83,7 +78,6 @@ const toggleMenu = () => {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
-  /* gap: 32px; */
   grid-auto-flow: dense;
   justify-content: center;
   justify-items: center;
@@ -102,19 +96,11 @@ const toggleMenu = () => {
   align-items: center;
   width: 100%;
   height: 100%;
-  /* max-width: 1200px; */
   padding: 32px 16px;
   gap: 64px;
 }
 
 #header-content-right {
-  /*
-  position: absolute;
-  height: 135px;
-  left: 12.96%;
-  right: 26.27%;
-  top: 66px; */
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -169,7 +155,6 @@ const toggleMenu = () => {
   align-items: center;
   gap: 32px;
   width: 100%;
-  /* height: 100%; */
   padding: 32px;
   color: var(--order-prompt-purple);
   font-size: 24px;

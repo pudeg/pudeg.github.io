@@ -2,6 +2,7 @@
 import { useUserStore } from "@/stores/user.store";
 import Group90 from '@/components/Group90.vue';
 import { ref } from "vue";
+import router from "@/router";
 defineProps([
   "xXtgonqzggoeUnsplash1",
   "spanText1",
@@ -218,7 +219,12 @@ const userStore = useUserStore();
 const handleMintClick = (e: UIEvent) => {
   clickedMint.value = true;
   const popup = open('https://www.scatter.art/collection/0x8fc0d90f2c45a5e7f94904075c952e0943cfccfd?tab=mint', 'Mint your Milady!', 'popup=true');
+}
+const handleBuyMyJerseyClick = (e: UIEvent) => {
+  if (userStore.hasBalance) {
+    router.push('vip')
 
+  }
 }
 
 window.addEventListener('focus', e => {
@@ -270,19 +276,19 @@ window.addEventListener('focus', e => {
           </div>
         </div>
         <div class="flex-row-6 comicsansms-bold-purple-40px">
-          <!-- <div class="flex-row-item-2 valign-text-middle">
-            <span>
-              <span class="comicsansms-bold-purple-40px">{{ spanText7 }}</span>
-              <span class="span-10 comicsansms-bold-purple-40px">{{spanText8}}</span>
-              <span class="comicsansms-bold-purple-40px">{{ spanText9 }}</span>
-            </span>
-          </div> -->
           <div class="flex-row-item-2 valign-text-middle">
             <span>
-              <!-- <span class="span-10 comicsansms-bold-purple-40px">{{
+              <span class="comicsansms-bold-purple-40px">{{ spanText7 }}</span>
+              <span class="span-10 comicsansms-bold-purple-40px">{{ spanText8 }}</span>
+              <span class="comicsansms-bold-purple-40px">{{ spanText9 }}</span>
+            </span>
+          </div>
+          <div class="flex-row-item-2 valign-text-middle">
+            <span>
+              <span class="span-10 comicsansms-bold-purple-40px">{{
                 spanText10
               }}
-              </span> -->
+              </span>
               <span class="comicsansms-bold-purple-40px">{{ spanText11 }}</span>
             </span>
           </div>
@@ -329,7 +335,7 @@ window.addEventListener('focus', e => {
         </div>
       </div>
       <div class="flex-col-16">
-        <router-link to="/gallery-overlay">
+        <!-- <router-link to="/gallery-overlay">
           <div class="group-124">
             <div class="overlap-group-8">
               <div class="
@@ -346,7 +352,7 @@ window.addEventListener('focus', e => {
               </div>
             </div>
           </div>
-        </router-link>
+        </router-link> -->
         <div class="flex-row-8">
           <div class="flex-col-17">
             <div class="group-38-1">
@@ -487,13 +493,11 @@ window.addEventListener('focus', e => {
           </p>
           <div class="group-123">
             <div class="overlap-group-9">
-              <p class="
-                  learn-more-read-our-mirrorxyz-post-1
-                  ibmplexmono-normal-white-22px
-                ">
+              <a href="https://mirror.xyz/zorhol.eth/uPGvlrhjSY722zhchp2NtY_eVkG5O0OodsCx5-A6j80"
+                class="span1-1 ibmplexmono-bold-purple-30px">
                 <span class="ibmplexmono-normal-black-22px">{{ spanText111 }}</span>
-                <a href="https://mirror.xyz/zorhol.eth/uPGvlrhjSY722zhchp2NtY_eVkG5O0OodsCx5-A6j80" class="span1-1 ibmplexmono-bold-purple-30px">{{ spanText112 }}</a>
-              </p>
+                <p class="span1-1 ibmplexmono-bold-purple-30px">{{ spanText112 }}</p>
+              </a>
             </div>
             <p class="
                 alternatively-you-c-1
@@ -544,10 +548,11 @@ window.addEventListener('focus', e => {
                   </div>
                 </div>
               </div>
-            </a><a href="shopify.com" target="_blank">
+            </a>
+            <div>
               <div class="group-5-1">
                 <div class="overlap-group2-2">
-                  <a href="https://mirror.xyz/zorhol.eth/uPGvlrhjSY722zhchp2NtY_eVkG5O0OodsCx5-A6j80" target="_blank">
+                  <div @click="handleBuyMyJerseyClick" target="_blank">
                     <div class="
                         buy-my-jersey-1
                         valign-text-middle
@@ -555,10 +560,10 @@ window.addEventListener('focus', e => {
                       ">
                       {{ buyMyJersey }}
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
           <div class="flex-row-10 ibmplexmono-bold-black-22px">
             <p class="flex-row-item-3">
@@ -585,13 +590,13 @@ window.addEventListener('focus', e => {
             </p>
           </div>
           <div class="overlap-group6-1">
-            <p class="
+            <a href="https://mirror.xyz/zorhol.eth/uPGvlrhjSY722zhchp2NtY_eVkG5O0OodsCx5-A6j80" class="
                 learn-more-read-our-mirrorxyz-post-2
                 ibmplexmono-normal-white-22px
               ">
               <span class="ibmplexmono-normal-black-22px">{{ spanText134 }}</span>
               <span class="span1-1 ibmplexmono-bold-purple-30px">{{ spanText135 }}</span>
-            </p>
+            </a>
           </div>
           <div class="overlap-group12-1">
             <div class="
@@ -761,10 +766,12 @@ window.addEventListener('focus', e => {
   margin-top: 200px;
 }
 
-.mint-button:hover {
-  filter: brightness(1.4);
-  transition: 0.2s;
+.mint-button {
+  transition: 0.5s;
+}
 
+.mint-button:hover {
+  filter: contrast(1.4) saturate(2);
 }
 
 .macbook-pro-16-frontend {
@@ -1530,6 +1537,7 @@ window.addEventListener('focus', e => {
   line-height: 33.8px;
   text-align: center;
   width: 359px;
+
 }
 
 .flex-row-10 {

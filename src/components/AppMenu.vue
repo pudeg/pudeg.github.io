@@ -11,8 +11,7 @@ const itemUrlMap = new Map([
   ['twitter', ''],
   ['gallery', ''],
   ['chart', ''],
-])
-
+]);
 
 const props = defineProps({
   show: Boolean
@@ -22,13 +21,8 @@ const show = ref(false);
 const width = ref(500)
 
 const close = () => {
-  emit('closemenu')
+  emit('closemenu');
 }
-
-const handleItemClick = (dest: string) => {
-
-}
-
 </script>
 
 <template>
@@ -85,10 +79,6 @@ const handleItemClick = (dest: string) => {
   padding: 64px 0;
 }
 
-#app-menu * {
-  /* white-space: nowrap; */
-}
-
 #app-menu.open {
   width: 1000px;
 }
@@ -106,7 +96,6 @@ const handleItemClick = (dest: string) => {
   align-items: center;
   grid-auto-flow: dense;
   gap: 8px;
-  /* margin-top: 30px; */
   padding: 32px;
   text-align: center;
   opacity: 0;
