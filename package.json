@@ -2,7 +2,7 @@
   "name": "milady-moto",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://hamilsauce.github.io/milady-moto",
+  "homepage": "https://pudeg.github.io",
   "scripts": {
     "dev": "vite",
     "dev2": "vite --host --port 3000",

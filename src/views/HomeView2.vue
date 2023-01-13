@@ -222,7 +222,7 @@ const handleMintClick = (e: UIEvent) => {
 }
 const handleBuyMyJerseyClick = (e: UIEvent) => {
   if (userStore.hasBalance) {
-    router.push('vip')
+    router.push('/vip')
 
   }
 }
@@ -626,7 +626,7 @@ window.addEventListener('focus', e => {
               </span>
             </p>
           </div>
-          <router-link to="/gallery-overlay">
+          <!-- <router-link to="/gallery-overlay">
             <div class="group-111-1">
               <div class="overlap-group-8">
                 <div class="
@@ -643,7 +643,7 @@ window.addEventListener('focus', e => {
                 </div>
               </div>
             </div>
-          </router-link>
+          </router-link> -->
           <div class="overlap-group10-1" :style="{ 'background-image': 'url(' + overlapGroup10 + ')' }">
             <div class="x10_0"></div>
             <div class="group-117-1">
