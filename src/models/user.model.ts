@@ -31,19 +31,21 @@ export interface ShippingAddress {
 export type OrderStatus = 'SHIPPING_UNASSIGNED' | 'SHIPPING_ASSIGNED' | 'FULFILLED' | 'CLOSED';
 
 export interface Order {
-  id?: string;
+  // id?: string;
   index?: number;
+  tokenId?: string;
   jerseySize: JerseySizeType | null;
   shippingAddress: ShippingAddress | null;
   status: OrderStatus;
+  trackingNumber?: string;
 }
 
 export interface UserModel {
   mi777Balance: number | null | any;
   wallet: string | null;
   orders: Record<string, Order>;
+  ownedTokenIds?: Array<string | number>;
 }
-
 
 export interface UserState {
   userData: UserModel;
@@ -59,5 +61,19 @@ export interface BalanceMap {
   contract: string;
 }
 
-export type BalanceResponse = BalanceMap[];
+export interface Token {
+  id: number | string;
+  contract?: string;
+  owner: string | null;
+}
+
+export interface TokenResponse {
+  TokenAddress: string;
+  TokenId: string;
+};
+
+export interface BalanceResponse {
+  contract: string;
+  tokens: TokenResponse[];
+};
 

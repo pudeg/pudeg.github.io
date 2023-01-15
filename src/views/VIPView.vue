@@ -34,7 +34,7 @@ const toggleMenu = () => {
       </div>
       <div id="header-content-right">
         <div class="caption-text">mi777: the MiladyMoto Jersey</div>
-        <div class="header-text">Minted {{ userStore.balance }} Jerseys. Placed {{ userStore.assignedOrders.length }}
+        <div class="header-text">Minted {{ userStore.ownedTokenIds.length }} Jerseys. Placed {{ userStore.assignedOrders.length }}
           Order</div>
         <div class="header-right-bottom">
           <span class="normal-text">Once submitted, order = final. </span>
@@ -49,7 +49,7 @@ const toggleMenu = () => {
     </div>
     <div v-else class="shipping-forms">
       <h1>Have jersey</h1>
-      <ShippingForm v-for="(order, index) in userStore.orders" :order-id="order.id" />
+      <ShippingForm v-for="(order, index) in userStore.orders" :order-id="order.tokenId" />
     </div>
   </section>
   <AppMenu @closemenu="toggleMenu" :show="showMenu" />

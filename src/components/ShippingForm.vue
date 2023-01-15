@@ -4,15 +4,18 @@ import { computed, ref } from 'vue';
 import { type JerseySizeType, JerseySize, type Order, type OrderStatus, type ShippingAddress, } from '@/models/user.model';
 
 const props = defineProps({
-  orderId: String
+  orderId: String,
+  order: Object
 });
 
 const userStore = useUserStore();
 
-const order = userStore.getOrder(props.orderId || '');
+// const order = userStore.orders[(props.orderId || '')] // userStore.getOrder(props.orderId || '');
 
-const disableForm = ref(order?.status !== 'SHIPPING_UNASSIGNED');
-const showConfirmation = computed(() => order?.status !== 'SHIPPING_UNASSIGNED');
+const order = computed(() => userStore.orders[(props.orderId || '')]);
+
+const disableForm = ref(order.value?.status !== 'SHIPPING_UNASSIGNED');
+const showConfirmation = computed(() => order.value?.status !== 'SHIPPING_UNASSIGNED');
 
 const jerseySizes: JerseySizeType[] = [
   'XSmall',
@@ -24,7 +27,7 @@ const jerseySizes: JerseySizeType[] = [
   'XXXLarge',
 ]
 
-const shippingAddress = ref(order?.shippingAddress ? { ...order.shippingAddress } : {
+const shippingAddress = ref(order.value?.shippingAddress ? { ...order.value.shippingAddress } : {
   name: '',
   address1: '',
   city: '',
@@ -34,12 +37,12 @@ const shippingAddress = ref(order?.shippingAddress ? { ...order.shippingAddress 
 });
 
 const displayStatus = ref(
-  order.status === 'SHIPPING_ASSIGNED' ? 'ORDER PLACED' : order.status === 'FULFILLED' ? 'ORDER SHIPPED' : 'PLACED ORDER'
+  order.value.status === 'SHIPPING_ASSIGNED' ? 'ORDER PLACED' : order.value.status === 'FULFILLED' ? 'ORDER SHIPPED' : 'PLACED ORDER'
 );
 
 const collapsed = ref(true);
 
-const jerseySize = ref(order?.jerseySize ? order?.jerseySize :
+const jerseySize = ref(order.value?.jerseySize ? order.value?.jerseySize :
   jerseySizes[JerseySize.Large]
 );
 
@@ -49,7 +52,8 @@ const validateData = (order: ShippingAddress): boolean => {
 
 const handleSubmit = () => {
   if (validateData(shippingAddress.value)) {
-    userStore.updateOrder(order.id || '', {
+    userStore.updateOrder(order.value.tokenId || '', {
+      tokenId: order.value.tokenId,
       jerseySize: jerseySize.value,
       shippingAddress: shippingAddress.value,
       status: 'SHIPPING_ASSIGNED',
@@ -66,7 +70,7 @@ const toggleCollapse = () => {
 <template>
   <div class="shipping-form-view">
     <div class="shipping-form-button">
-      <h1 @click="toggleCollapse" class="shipping-form-title">Order # {{ order?.id }}</h1>
+      <h1 @click="toggleCollapse" class="shipping-form-title">Order # {{ order?.tokenId }}</h1>
       <svg v-if="showConfirmation" class="expand-icon" width="32" height="32" viewBox="-4 -4 32 32"
         xmlns="http://www.w3.org/2000/svg" _transform="translate(0,0) rotate(50%)"
         style="transform-origin: center center;border:1px solid #FFFFFF00;" xmlns:xlink="http://www.w3.org/1999/xlink">

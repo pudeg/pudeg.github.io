@@ -1,6 +1,6 @@
 import type { Order, UserModel } from "@/models/user.model";
 import { initializeApp } from "firebase/app";
-import { getDocs, type DocumentData, type DocumentSnapshot, type PartialWithFieldValue, type SetOptions, type Unsubscribe, Query, QuerySnapshot, } from 'firebase/firestore'
+import { getDocs, writeBatch, type DocumentData, type DocumentSnapshot, type PartialWithFieldValue, type SetOptions, type Unsubscribe, Query, QuerySnapshot, } from 'firebase/firestore'
 import {
   Firestore,
   getFirestore,
@@ -35,10 +35,11 @@ const instance: Firestore = getFirestore(app);
 export const firestore = {
   instance,
   query,
+  writeBatch: () => writeBatch(instance),
   onSnapshot: (pathOrDocRef: string | DocumentReference<DocumentData>, pathSegments: string[], callback: (doc: DocumentSnapshot) => void): Unsubscribe => onSnapshot(pathOrDocRef instanceof DocumentReference<DocumentData> ? pathOrDocRef : doc(instance, pathOrDocRef, ...pathSegments), callback),
   collection: (path: string, ...pathSegments: string[]): CollectionReference => collection(instance, path, ...pathSegments),
   doc: (path: string, ...pathSegments: string[]): DocumentReference<DocumentData> => doc(instance, path, ...pathSegments),
-  setDoc: (documentReference: DocumentReference<DocumentData>, data: PartialWithFieldValue<DocumentData>, options: SetOptions): Promise<void> => setDoc(documentReference, data),
+  setDoc: (documentReference: DocumentReference<DocumentData>, data?: PartialWithFieldValue<DocumentData>, options?: SetOptions): Promise<void> => setDoc(documentReference, data),
   async deleteDoc2(documentReference: DocumentReference<DocumentData>, data: PartialWithFieldValue<DocumentData>, options: SetOptions): Promise<string> {
     const id = documentReference.id;
     await deleteDoc(documentReference);

@@ -10,8 +10,11 @@ const COLLECTION_NAMES = {
 }
 
 export const userCollectionRef = collection(COLLECTION_NAMES.users);
+export const tokenCollectionRef = collection('tokens');
 
 export const getOrderCollectionRef = (wallet: string) => collection(COLLECTION_NAMES.users, wallet, 'orders');
+
+export const getOrderRef = (wallet: string, id: string | number) => doc(COLLECTION_NAMES.users, wallet, 'orders', id.toString());
 
 export const getUserDocRef = (wallet: string): DocumentReference<DocumentData> => doc(COLLECTION_NAMES.users, wallet)
 
@@ -23,8 +26,12 @@ export const listenOnUserOrders = (wallet: string, callback: (querySnapshot: Que
   return onSnapshot(getOrderCollectionRef(wallet), callback);
 }
 
-export const getUserDoc = async (ref: DocumentReference): Promise<DocumentSnapshot<unknown>> => {
-  return await getDoc(ref);
+export const getUserDoc = async (refOrPath: DocumentReference | string): Promise<DocumentSnapshot<unknown>> => {
+  return await getDoc(typeof refOrPath === 'string' ? doc(refOrPath) : refOrPath);
+}
+
+export const getFireStoreDoc = async (refOrPath: DocumentReference | string): Promise<DocumentSnapshot<unknown>> => {
+  return await getDoc(typeof refOrPath === 'string' ? doc(refOrPath) : refOrPath);
 }
 
 export const getOrders = async (wallet: string): Promise<Order[]> => {
@@ -46,26 +53,43 @@ export const addNewOrder = async (wallet: string, { index }: Partial<Order>): Pr
   return res;
 }
 
+
+export const setUser = async (wallet: string,): Promise<void> => {
+  await setDoc(getUserDocRef(wallet), { wallet });
+  // await setDoc(doc(COLLECTION_NAMES.users, wallet, 'orders', id), updates, { merge: true });
+}
+
+
 export const updateUserOrder = async (wallet: string, id: string, updates: Partial<Order>): Promise<void> => {
   await setDoc(doc(COLLECTION_NAMES.users, wallet, 'orders', id), updates, { merge: true });
 }
 
+export const addOwnerToToken = async (tokenId: string, wallet: string): Promise<void> => {
+  await setDoc(doc('tokens', tokenId), { id: tokenId, owner: wallet }, { merge: true });
+}
+
+export const createUser = async (wallet: string, id: string, updates: Partial<Order>): Promise<void> => {
+  await setDoc(doc(COLLECTION_NAMES.users, wallet, 'orders', id), updates, { merge: true });
+}
+
+
 export const getUser = async (wallet: string, { mi777Balance }: Partial<UserModel> = {}): Promise<UserModel> => {
   const balance = mi777Balance || 0;
+
   const userDoc = await getUserDoc(getUserDocRef(wallet));
 
-  // * 1) Create or update user doc
+  // 1) Create or update user doc
   await setDoc(getUserDocRef(wallet), { mi777Balance: balance, wallet }, { merge: true });
 
-  // * 2) Get reference to existing orders collection (creates new empty collection if non existent)
+  // 2) Get reference to existing orders collection (creates new empty collection if non existent)
   const userOrders = await getOrders(wallet);
   console.warn('[IN USERSTORE GET USER > userOrders()]', userOrders);
 
-  // * 3) Get the difference of current balance and number of existing orders
+  // 3) Get the difference of current balance and number of existing orders
 
   const newOrderCount = mi777Balance - userOrders.length
 
-  // * 4) If difference is greater than 0, add new docs for each additional token
+  // 4) If difference is greater than 0, add new docs for each additional token
   if (newOrderCount > 0) {
     for (let index = 0; index < newOrderCount; index++) {
       await addNewOrder(wallet, { index: userOrders.length });
@@ -75,6 +99,6 @@ export const getUser = async (wallet: string, { mi777Balance }: Partial<UserMode
   return {
     //@ts-ignore
     ...(userDoc.data()),
-    orders: (await getOrders(wallet)).reduce((acc, curr: Order, i) => ({ ...acc, [(curr.id || '')]: curr }), {})
+    orders: (await getOrders(wallet)).reduce((acc, curr: Order, i) => ({ ...acc, [(curr.tokenId || '')]: curr }), {})
   } as UserModel;
 }

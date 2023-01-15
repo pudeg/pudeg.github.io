@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from "@/router";
 import { useUserStore } from "@/stores/user.store";
 import { computed } from "vue";
 
@@ -11,7 +12,13 @@ const connectButtonContent = computed(() => userStore.isConnected ? `${ userStor
 const backgroundColor = computed(() => userStore.hasBalance ? 'mint' : userStore.isConnected ? 'gray' : '');
 
 const handleConnectClick = async () => {
-  userStore.connect();
+  if (userStore.isConnected) {
+    userStore.connect();
+    router.push('/vip');
+  }
+  else {
+    userStore.connect();
+  }
 };
 
 </script>

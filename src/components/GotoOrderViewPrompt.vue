@@ -34,7 +34,7 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
     </div>
     <div id="prompt-header-left">
       <div class="prompt-row">
-        <div>✅ Great job! You minted {{ userStore.balance }} mi777 Jersey Tokens.</div>
+        <div>✅ Great job! You minted {{ userStore.ownedTokenIds.length }} mi777 Jersey Tokens.</div>
         <div>🔲 But you've only placed {{ userStore.assignedOrders.length }} orders.</div>
 
       </div>
