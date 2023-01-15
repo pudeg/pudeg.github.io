@@ -29,7 +29,7 @@ export const useUserStore = defineStore('user', () => {
   const scatterUrl = computed(() => CONSTS.scatterMintUrl);
   const ownedTokenIds = computed(() => Object.keys(orders.value));
 
-  const balance = computed(() =>  userState.mi777Balance);
+  const balance = computed(() => userState.mi777Balance);
   const orderArray = computed(() => userState.orders);
   const assignedOrders = computed(() => Object.values(orders.value).filter(order => order.status !== 'SHIPPING_UNASSIGNED'));
   const unassignedOrders = computed(() => Object.values(orders.value).filter(order => order.status === 'SHIPPING_UNASSIGNED'));
@@ -154,20 +154,17 @@ export const useUserStore = defineStore('user', () => {
 
   const getTokenDocs = async (wallet: string, ...tokenIds: string[]): Promise<Token[] | null> => {
     if (!tokenIds || !tokenIds.length) return [];
-    console.log({ tokenIds });
-
+    const normalizedIds: number[] = tokenIds.map(_ => +_)
 
     const tokenQuery = query(tokenCollectionRef,
-      where('id', 'in', tokenIds),
+      where('id', 'in', normalizedIds),
     )
 
 
 
     const tokenDocs: Token[] = (await getDocs(tokenQuery)).docs.map((_: QueryDocumentSnapshot<unknown>) => _.data() as Token);
-    // const tokenDocs: any[] = (await getDocs(tokenQuery)).docs;
     console.warn('TOKEN QURY RESULT');
 
-    console.warn({ tokenDocs });
 
     const unownedTokens = tokenDocs.filter(t => !(!!t.owner))
     return unownedTokens || null
