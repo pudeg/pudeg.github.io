@@ -43,8 +43,7 @@ const setUserClosed = (state?: boolean) => {
 const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('zk-shipping') && (userStore.hasUnassignedTokens || userStore.isConnected) && userClosed.value !== true);
 
 </script>
-⛔ You need to mint mi777 first to place your Jersey orders!
-Mint then come back + Refresh
+
 <template>
   <header v-if="show" id="prompt-header" :style="{ backgroundColor: backgroundColor }">
     <section id="prompt-header-close">
