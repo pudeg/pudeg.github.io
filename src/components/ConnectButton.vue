@@ -17,7 +17,7 @@ const tooltip = computed(() => userStore.ownedTokenIds.length ? 'CLICK HERE TO P
 const handleConnectClick = async () => {
   if (userStore.ownedTokenIds.length) {
     userStore.connect();
-    router.push('/vip');
+    router.push('/zk-shipping');
   }
   else {
     userStore.connect();

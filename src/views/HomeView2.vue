@@ -225,7 +225,7 @@ const handleMintClick = (e: UIEvent) => {
 }
 const handleBuyMyJerseyClick = (e: UIEvent) => {
   if (userStore.hasBalance) {
-    router.push('/vip');
+    router.push('/zk-shipping');
   }
 }
 const handleShopifyClick = (e: UIEvent) => {

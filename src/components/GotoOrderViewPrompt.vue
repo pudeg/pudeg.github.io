@@ -25,7 +25,7 @@ const handleCtaClick = async () => {
     const popup = open(CONSTS.scatterMintUrl, 'Mint your Milady!', 'popup=true');
   }
   else {
-    router.push('vip');
+    router.push('zk-shipping');
 
   }
 };
