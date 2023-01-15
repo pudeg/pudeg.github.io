@@ -15,7 +15,7 @@ const tooltip = computed(() => userStore.ownedTokenIds.length ? 'CLICK HERE TO P
 
 
 const handleConnectClick = async () => {
-  if (userStore.isConnected) {
+  if (userStore.ownedTokenIds.length) {
     userStore.connect();
     router.push('/vip');
   }

@@ -10,6 +10,7 @@ const COLLECTION_NAMES = {
 }
 
 export const userCollectionRef = collection(COLLECTION_NAMES.users);
+
 export const tokenCollectionRef = collection('tokens');
 
 export const getOrderCollectionRef = (wallet: string) => collection(COLLECTION_NAMES.users, wallet, 'orders');

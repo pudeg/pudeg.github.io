@@ -34,7 +34,9 @@ const toggleMenu = () => {
       </div>
       <div id="header-content-right">
         <div class="caption-text">mi777: the MiladyMoto Jersey</div>
-        <div class="header-text">Minted {{ userStore.ownedTokenIds.length }} Jerseys. Placed {{ userStore.assignedOrders.length }}
+        <div class="header-text">Minted {{ userStore.ownedTokenIds.length }} Jerseys. Placed {{
+          userStore.assignedOrders.length
+        }}
           Order</div>
         <div class="header-right-bottom">
           <span class="normal-text">Once submitted, order = final. </span>
@@ -44,8 +46,6 @@ const toggleMenu = () => {
     </header>
 
     <div v-if="userSubmitted" id="pixel-editor-container">
-      <iframe src="https://hamilsauce.github.io/playground/simple-pixel-editor/" width="430" height="800"
-        frameborder="0"></iframe>
     </div>
     <div v-else class="shipping-forms">
       <h1>Have jersey</h1>

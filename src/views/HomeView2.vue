@@ -447,32 +447,32 @@ window.addEventListener('focus', e => {
             <div class="overlap-group14-1">
               <div class="group-101-1">
                 <p class="nft-raffle-milesto-1 ibmplexmono-normal-black-40px">
-                  <div id="milestones-text" class="ibmplexmono-normal-black-40px">{{ spanText80 }}</div>
-                  <span class="span-12 ibmplexmono-normal-black-22px-2">{{ spanText81 }}</span>
-                  <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText82 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText83 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px-2">{{ spanText84 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText85 }}</span>
-                  <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText86 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText87 }}</span>
-                  <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText88 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText89 }}</span>
-                  <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText90 }}</span>
-                  <span id="milestone-2" class="span-12 ibmplexmono-normal-black-22px">{{ spanText91 }}</span>
-                  <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText92 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText93 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px-2">{{ spanText94 }}</span>
-                  <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText95 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText96 }}</span>
-                  <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText97 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText98 }}</span>
-                  <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText99 }}</span>
-                  <span  id="milestone-3"  class="span-12 ibmplexmono-normal-black-22px">{{ spanText100 }}</span>
-                  <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText101 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText102 }}</span>
-                  <span class="span-14 ibmplexmono-normal-black-22px-2">{{ spanText103 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText104 }}</span>
-                  <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText105 }}</span>
+                <div id="milestones-text" class="ibmplexmono-normal-black-40px">{{ spanText80 }}</div>
+                <span class="span-12 ibmplexmono-normal-black-22px-2">{{ spanText81 }}</span>
+                <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText82 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText83 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px-2">{{ spanText84 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText85 }}</span>
+                <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText86 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText87 }}</span>
+                <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText88 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText89 }}</span>
+                <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText90 }}</span>
+                <span id="milestone-2" class="span-12 ibmplexmono-normal-black-22px">{{ spanText91 }}</span>
+                <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText92 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText93 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px-2">{{ spanText94 }}</span>
+                <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText95 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText96 }}</span>
+                <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText97 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText98 }}</span>
+                <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText99 }}</span>
+                <span id="milestone-3" class="span-12 ibmplexmono-normal-black-22px">{{ spanText100 }}</span>
+                <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText101 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText102 }}</span>
+                <span class="span-14 ibmplexmono-normal-black-22px-2">{{ spanText103 }}</span>
+                <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText104 }}</span>
+                <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText105 }}</span>
                 </p>
                 <p class="
                     x777-minted-milady-maker-6790-1
@@ -511,7 +511,8 @@ window.addEventListener('focus', e => {
               ">
               <span>
                 <span class="ibmplexmono-light-black-20px">{{ spanText113 }}</span>
-                <a href="https://mi777.myshopify.com/" class="span-10 ibmplexmono-light-black-20px" style="text-decoration: underline !important;">{{ spanText114 }}</a>
+                <a href="https://mi777.myshopify.com/" class="span-10 ibmplexmono-light-black-20px"
+                  style="text-decoration: underline !important;">{{ spanText114 }}</a>
                 <span class="ibmplexmono-light-black-20px">{{ spanText115 }}</span>
               </span>
             </p>
@@ -657,9 +658,9 @@ window.addEventListener('focus', e => {
           <div class="overlap-group10-1" :style="{ 'background-image': 'url(' + overlapGroup10 + ')' }">
             <div class="x10_0">
               <model-viewer id="mi777-model-viewer-2" src="https://hamilsauce.github.io/mi777.glb" ar=""
-              ar-modes="webxr scene-viewer quick-look" camera-controls="" environment-image="neutral"
-              shadow-intensity="0" autoplay="" ar-status="not-presenting">
-            </model-viewer>
+                ar-modes="webxr scene-viewer quick-look" camera-controls="" environment-image="neutral"
+                shadow-intensity="0" autoplay="" ar-status="not-presenting">
+              </model-viewer>
             </div>
             <div class="group-117-1">
               <p class="
@@ -737,7 +738,7 @@ window.addEventListener('focus', e => {
                       ">
                       {{ orderViaShopify }}
                     </div>
-                  </div>
+                  </div>t
                 </div>
               </a>
             </div>
@@ -765,7 +766,8 @@ window.addEventListener('focus', e => {
           </div>
           <p class="this-is-a-love-l-1 ibmplexmono-light-black-22px" v-html="thisIsALoveL"></p>
           <div class="overlap-group11-1" :style="{ 'background-image': 'url(' + overlapGroup11 + ')' }">
-            <img class="photo_2022-12-15-2324-1-1" :src="photo_2022121523241" alt="photo_2022-12-15 23.24 1" />
+            <iframe src="https://hamilsauce.github.io/playground/simple-pixel-editor/" width="430" height="800"
+              frameborder="0"></iframe>
           </div>
         </div>
       </div>
@@ -780,7 +782,8 @@ window.addEventListener('focus', e => {
   height: 1200px;
   margin-top: 200px;
 }
-#mi777-model-viewer-2{
+
+#mi777-model-viewer-2 {
   width: 100%;
   height: 100%;
 }
@@ -1270,6 +1273,7 @@ window.addEventListener('focus', e => {
 #milestone-2 {
   display: block;
 }
+
 #milestone-3 {
   display: block;
 }

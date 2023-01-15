@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/user.store";
 import { computed, ref } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
+import { CONSTS } from "@/data/Constants";
 
 const displayStates = {
   connect: 'connect',
@@ -19,8 +20,14 @@ const ctaTextContent = computed(() => displayState.value === displayStates.place
 const backgroundColor = computed(() => displayState.value === displayStates.placeOrder ? 'var(--order-prompt-mint)' : 'var(--order-prompt-red)');
 
 
-const handleOrderButtonClick = async () => {
-  router.push('vip');
+const handleCtaClick = async () => {
+  if (displayState.value === displayStates.mintToken) {
+    const popup = open(CONSTS.scatterMintUrl, 'Mint your Milady!', 'popup=true');
+  }
+  else {
+    router.push('vip');
+
+  }
 };
 
 const userStore = useUserStore();
@@ -33,7 +40,7 @@ const setUserClosed = (state?: boolean) => {
   userClosed.value = state ? state : !userClosed.value
 };
 
-const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('vip') && (userStore.hasUnassignedTokens || userStore.isConnected) && userClosed.value !== true);
+const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('zk-shipping') && (userStore.hasUnassignedTokens || userStore.isConnected) && userClosed.value !== true);
 
 </script>
 ⛔ You need to mint mi777 first to place your Jersey orders!
@@ -43,7 +50,7 @@ Mint then come back + Refresh
     <section id="prompt-header-close">
       <button @click="setUserClosed(true)" id="close-prompt">X</button>
     </section>
-    <section id="prompt-header-left"  v-if="displayState === displayStates.placeOrder">
+    <section id="prompt-header-left" v-if="displayState === displayStates.placeOrder">
       <div class="prompt-row">
         <div>✅ Great job! You minted {{ userStore.ownedTokenIds.length }} mi777 Jersey Tokens.</div>
         <div>🔲 But you've only placed {{ userStore.assignedOrders.length }} orders.</div>
@@ -57,7 +64,7 @@ Mint then come back + Refresh
         <div class="text--purple">w/ the mi777 privacy-enabled shipping experience!</div>
       </div>
     </section>
-    <section id="prompt-header-left"  v-if="displayState === displayStates.mintToken">
+    <section id="prompt-header-left" v-if="displayState === displayStates.mintToken">
       <div class="prompt-row column">
         <div>⛔ You need to mint mi777 first to place your Jersey orders!</div>
         <div class="text--bold">Mint then come back + Refresh</div>
@@ -72,7 +79,7 @@ Mint then come back + Refresh
       </div>
     </section>
     <section id="prompt-header-right">
-      <button @click="handleOrderButtonClick" id="prompt-header-order-button">{{ctaTextContent}}</button>
+      <button @click="handleCtaClick" id="prompt-header-order-button">{{ ctaTextContent }}</button>
     </section>
 
   </header>
@@ -216,5 +223,4 @@ Mint then come back + Refresh
   height: 100%;
   gap: 0px;
 }
-
 </style>
