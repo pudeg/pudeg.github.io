@@ -154,7 +154,7 @@ const toggleMenu = () => {
   justify-content: center;
   align-items: center;
   gap: 32px;
-  width: 100%;
+  /* width: 100%; */
   padding: 32px;
   color: var(--order-prompt-purple);
   font-size: 24px;

@@ -228,6 +228,11 @@ const handleBuyMyJerseyClick = (e: UIEvent) => {
     router.push('/vip');
   }
 }
+const handleShopifyClick = (e: UIEvent) => {
+  if (userStore.hasBalance) {
+    router.push('https://mi777.myshopify.com/');
+  }
+}
 
 window.addEventListener('focus', e => {
   console.warn('HEARD THAT FOCUS');
@@ -442,7 +447,7 @@ window.addEventListener('focus', e => {
             <div class="overlap-group14-1">
               <div class="group-101-1">
                 <p class="nft-raffle-milesto-1 ibmplexmono-normal-black-40px">
-                  <span class="ibmplexmono-normal-black-40px">{{ spanText80 }}</span>
+                  <div id="milestones-text" class="ibmplexmono-normal-black-40px">{{ spanText80 }}</div>
                   <span class="span-12 ibmplexmono-normal-black-22px-2">{{ spanText81 }}</span>
                   <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText82 }}</span>
                   <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText83 }}</span>
@@ -453,7 +458,7 @@ window.addEventListener('focus', e => {
                   <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText88 }}</span>
                   <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText89 }}</span>
                   <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText90 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText91 }}</span>
+                  <span id="milestone-2" class="span-12 ibmplexmono-normal-black-22px">{{ spanText91 }}</span>
                   <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText92 }}</span>
                   <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText93 }}</span>
                   <span class="span-12 ibmplexmono-normal-black-22px-2">{{ spanText94 }}</span>
@@ -462,7 +467,7 @@ window.addEventListener('focus', e => {
                   <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText97 }}</span>
                   <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText98 }}</span>
                   <span class="span-14 ibmplexmono-normal-black-22px">{{ spanText99 }}</span>
-                  <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText100 }}</span>
+                  <span  id="milestone-3"  class="span-12 ibmplexmono-normal-black-22px">{{ spanText100 }}</span>
                   <span class="span-12 ibmplexmono-bold-black-22px-2">{{ spanText101 }}</span>
                   <span class="span-12 ibmplexmono-normal-black-22px">{{ spanText102 }}</span>
                   <span class="span-14 ibmplexmono-normal-black-22px-2">{{ spanText103 }}</span>
@@ -471,8 +476,6 @@ window.addEventListener('focus', e => {
                 </p>
                 <p class="
                     x777-minted-milady-maker-6790-1
-                    valign-text-middle
-                    ibmplexmono-bold-white-32px
                   ">
                   <span>
                     <span class="ibmplexmono-bold-black-32px">{{ spanText106 }}</span>
@@ -508,7 +511,7 @@ window.addEventListener('focus', e => {
               ">
               <span>
                 <span class="ibmplexmono-light-black-20px">{{ spanText113 }}</span>
-                <span class="span-10 ibmplexmono-light-black-20px">{{ spanText114 }}</span>
+                <a href="https://mi777.myshopify.com/" class="span-10 ibmplexmono-light-black-20px" style="text-decoration: underline !important;">{{ spanText114 }}</a>
                 <span class="ibmplexmono-light-black-20px">{{ spanText115 }}</span>
               </span>
             </p>
@@ -552,7 +555,7 @@ window.addEventListener('focus', e => {
               </div>
             </a>
             <div>
-              <div class="group-5-1">
+              <a class="group-5-1" href="https://mi777.myshopify.com/">
                 <div class="overlap-group2-2">
                   <div @click="handleBuyMyJerseyClick" target="_blank">
                     <div class="
@@ -564,7 +567,7 @@ window.addEventListener('focus', e => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
           <div class="flex-row-10 ibmplexmono-bold-black-22px">
@@ -608,7 +611,12 @@ window.addEventListener('focus', e => {
               ">
               {{ text12 }}
             </div>
-            <div class="x9_0"></div>
+            <div class="x9_0">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/3moF3-IrdxE" title="mi777"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
           </div>
           <div class="overlap-group13-1 ibmplexmono-bold-black-25px">
             <p class="music-by-mistersoup_hi-1 valign-text-middle">
@@ -647,7 +655,12 @@ window.addEventListener('focus', e => {
             </div>
           </router-link> -->
           <div class="overlap-group10-1" :style="{ 'background-image': 'url(' + overlapGroup10 + ')' }">
-            <div class="x10_0"></div>
+            <div class="x10_0">
+              <model-viewer id="mi777-model-viewer-2" src="https://hamilsauce.github.io/mi777.glb" ar=""
+              ar-modes="webxr scene-viewer quick-look" camera-controls="" environment-image="neutral"
+              shadow-intensity="0" autoplay="" ar-status="not-presenting">
+            </model-viewer>
+            </div>
             <div class="group-117-1">
               <p class="
                   mint-option-14-days-777-total-1
@@ -708,7 +721,7 @@ window.addEventListener('focus', e => {
               <p class="x-physi-1 comicsansms-bold-purple-26-4px">
                 {{ orderPhysicalJerseyWFiat }}
               </p>
-              <a href="https://www.shopify.com/" target="_blank">
+              <a href="https://mi777.myshopify.com/" target="_blank">
                 <div class="group-92-1">
                   <p class="
                       physical-jersey-orde-1
@@ -767,6 +780,10 @@ window.addEventListener('focus', e => {
   height: 1200px;
   margin-top: 200px;
 }
+#mi777-model-viewer-2{
+  width: 100%;
+  height: 100%;
+}
 
 .mint-button {
   transition: 0.5s;
@@ -783,6 +800,7 @@ window.addEventListener('focus', e => {
   display: flex;
   flex-direction: column;
   height: 14520px;
+  height: 100%;
   overflow: hidden;
   width: 1728px;
   width: 100%;
@@ -1048,7 +1066,7 @@ window.addEventListener('focus', e => {
   flex-direction: column;
   margin-right: 1px;
   margin-top: 129px;
-  min-height: 9884px;
+  /* min-height: 9884px; */
   width: 2257px;
 }
 
@@ -1121,6 +1139,10 @@ window.addEventListener('focus', e => {
   line-height: 25px;
   min-height: 251px;
   width: 427px;
+}
+
+.mint-token-via-scatt-1 span:nth-child(3) {
+  display: block;
 }
 
 .span0-1 {
@@ -1227,7 +1249,7 @@ window.addEventListener('focus', e => {
   display: flex;
   flex-direction: column;
   margin-top: 188px;
-  min-height: 8384px;
+  height: 100%;
   width: 2257px;
 }
 
@@ -1239,6 +1261,17 @@ window.addEventListener('focus', e => {
   margin-left: 170px;
   min-height: 580px;
   width: 1559px;
+}
+
+#milestones-text {
+  display: block;
+}
+
+#milestone-2 {
+  display: block;
+}
+#milestone-3 {
+  display: block;
 }
 
 .group-container-5 {
@@ -1332,7 +1365,7 @@ window.addEventListener('focus', e => {
 
 .x777-minted-milady-maker-6790-1 {
   -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent;
+  /* -webkit-text-fill-color: transparent; */
   background: linear-gradient(180deg,
       rgb(0, 0, 0) 0%,
       rgb(123.19, 0, 198.69) 100%);
@@ -1340,8 +1373,10 @@ window.addEventListener('focus', e => {
   height: 59px;
   letter-spacing: -0.32px;
   line-height: 43.2px;
-  text-fill-color: transparent;
+  /* text-fill-color: transparent; */
+  color: black;
   width: 864px;
+  z-index: 500;
 }
 
 .x4_3 {
@@ -1668,7 +1703,7 @@ window.addEventListener('focus', e => {
 
 .x10_0 {
   align-self: flex-end;
-  background-color: var(--black);
+  /* background-color: var(--black); */
   border-radius: 14px;
   height: 628px;
   width: 505px;

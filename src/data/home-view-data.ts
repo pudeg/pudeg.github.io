@@ -408,7 +408,7 @@ export const macBookPro16FrontEndData = {
     step1: "Step 1",
     spanText41: "MINT Token",
     spanText42: " via Scatter",
-    spanText43: "14 Days",
+    spanText43: "17 Days",
     spanText44: " — Max-Run ⌛️ ",
     spanText45: "777 Limit",
     spanText46: " — Limited Supply ",
