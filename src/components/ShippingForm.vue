@@ -10,11 +10,10 @@ const props = defineProps({
 
 const userStore = useUserStore();
 
-// const order = userStore.orders[(props.orderId || '')] // userStore.getOrder(props.orderId || '');
-
 const order = computed(() => userStore.orders[(props.orderId || '')]);
 
 const disableForm = ref(order.value?.status !== 'SHIPPING_UNASSIGNED');
+
 const showConfirmation = computed(() => order.value?.status !== 'SHIPPING_UNASSIGNED');
 
 const jerseySizes: JerseySizeType[] = [
@@ -133,6 +132,9 @@ const toggleCollapse = () => {
 </template>
 
 <style>
+.shipping-form-view {
+  width: 100%;
+}
 .shipping-form {
   display: flex;
   flex-direction: column;

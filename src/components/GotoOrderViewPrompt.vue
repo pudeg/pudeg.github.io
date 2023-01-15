@@ -4,39 +4,49 @@ import { computed, ref } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
 
+const displayStates = {
+  connect: 'connect',
+  mintToken: 'mintToken',
+  placeOrder: 'placeOrder'
+}
 
+const checkboxes = {
+  checked: '✅',
+  unchecked: '🔲'
+}
+const displayState = computed(() => userStore.ownedTokenIds.length ? displayStates.placeOrder : userStore.isConnected ? displayStates.mintToken : displayStates.connect);
+const ctaTextContent = computed(() => displayState.value === displayStates.placeOrder ? 'Place my Jersey Orders!' : 'Mint mi777 tokens');
+const backgroundColor = computed(() => displayState.value === displayStates.placeOrder ? 'var(--order-prompt-mint)' : 'var(--order-prompt-red)');
 
-
-const userStore = useUserStore();
-const currentRoute = useRoute()
-
-const connectButtonContent = computed(() => userStore.isConnected ? (userStore.user.wallet?.slice(0, 3) + '...' + userStore.user.wallet?.slice(-4, -1)).toLowerCase() : 'Connect');
-
-const userClosed = ref(false);
 
 const handleOrderButtonClick = async () => {
   router.push('vip');
 };
 
+const userStore = useUserStore();
+
+const currentRoute = useRoute();
+
+const userClosed = ref(false);
+
 const setUserClosed = (state?: boolean) => {
   userClosed.value = state ? state : !userClosed.value
 };
-const userClosedComputed = computed(() => userClosed.value);
 
-const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('vip') && userStore.hasUnassignedTokens && userClosed.value !== true);
+const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('vip') && (userStore.hasUnassignedTokens || userStore.isConnected) && userClosed.value !== true);
 
 </script>
-
+⛔ You need to mint mi777 first to place your Jersey orders!
+Mint then come back + Refresh
 <template>
-  <header v-if="show" id="prompt-header" >
-    <div id="prompt-header-close">
+  <header v-if="show" id="prompt-header" :style="{ backgroundColor: backgroundColor }">
+    <section id="prompt-header-close">
       <button @click="setUserClosed(true)" id="close-prompt">X</button>
-    </div>
-    <div id="prompt-header-left">
+    </section>
+    <section id="prompt-header-left"  v-if="displayState === displayStates.placeOrder">
       <div class="prompt-row">
         <div>✅ Great job! You minted {{ userStore.ownedTokenIds.length }} mi777 Jersey Tokens.</div>
         <div>🔲 But you've only placed {{ userStore.assignedOrders.length }} orders.</div>
-
       </div>
       <div class="prompt-row">
         <div class="text--purple">Proceed to the ZK-Order Experience</div>
@@ -44,12 +54,26 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
       </div>
       <div class="prompt-row">
         <div class="text--purple">Select your Sizes + Enter your Shipping Destinations</div>
-        <div class="text--purple">w/ the mi777 privacy-enabled shipping experience.!</div>
+        <div class="text--purple">w/ the mi777 privacy-enabled shipping experience!</div>
       </div>
-    </div>
-    <div id="prompt-header-right">
-      <button @click="handleOrderButtonClick" id="prompt-header-order-button">Place my Jersey Orders!</button>
-    </div>
+    </section>
+    <section id="prompt-header-left"  v-if="displayState === displayStates.mintToken">
+      <div class="prompt-row column">
+        <div>⛔ You need to mint mi777 first to place your Jersey orders!</div>
+        <div class="text--bold">Mint then come back + Refresh</div>
+      </div>
+      <div class="prompt-row">
+        <div class="text--purple">Mint your mi777 jersey tokens to gain</div>
+        <div class="text--purple">access to the ZK-order experience.</div>
+      </div>
+      <div class="prompt-row">
+        <div class="text--purple">1 token = 1 jersey. </div>
+        <div class="text--purple"></div>
+      </div>
+    </section>
+    <section id="prompt-header-right">
+      <button @click="handleOrderButtonClick" id="prompt-header-order-button">{{ctaTextContent}}</button>
+    </section>
 
   </header>
 
@@ -72,7 +96,7 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
   height: 400px;
 
   padding: 0 64px;
-  background-color: var(--order-prompt-mint);
+  /* background-color: var(--order-prompt-mint); */
   color: black;
   z-index: 10;
   font-family: Comic Sans MS;
@@ -167,6 +191,8 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
 }
 
 #prompt-header-order-button {
+  width: 100%;
+  min-width: 310px;
   padding: 16px 40px;
   background-color: var(--order-prompt-purple);
   color: white;
@@ -176,4 +202,19 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
   line-height: 33.75px;
   border-radius: 13px;
 }
+
+.text--bold {
+  font-weight: 700;
+}
+
+.prompt-row.column {
+  display: flex;
+  flex-direction: columns;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  gap: 0px;
+}
+
 </style>

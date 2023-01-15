@@ -9,7 +9,10 @@ const DEFAULT_CONNECT_TEXT = 'Connect';
 
 const connectButtonContent = computed(() => userStore.isConnected ? `${ userStore.user.wallet?.slice(0, 6).toLowerCase() }...${ userStore.user.wallet?.slice(-5, -1).toLowerCase() }` : DEFAULT_CONNECT_TEXT);
 
-const backgroundColor = computed(() => userStore.hasBalance ? 'mint' : userStore.isConnected ? 'gray' : '');
+const backgroundColor = computed(() => userStore.ownedTokenIds.length ? 'mint' : userStore.isConnected ? 'gray' : '');
+
+const tooltip = computed(() => userStore.ownedTokenIds.length ? 'CLICK HERE TO PLACE OR SEE JERSEY ORDERS' : userStore.isConnected ? 'CONNECTED - GO MINT' : 'CONNECT');
+
 
 const handleConnectClick = async () => {
   if (userStore.isConnected) {
@@ -25,7 +28,7 @@ const handleConnectClick = async () => {
 
 <template>
   <div id="connect-container">
-    <button id="connect-button" :class="backgroundColor" @click="handleConnectClick">
+    <button id="connect-button" :class="backgroundColor" @click="handleConnectClick" :title="tooltip">
       {{ connectButtonContent }}</button>
   </div>
 </template>
@@ -48,6 +51,7 @@ const handleConnectClick = async () => {
   padding: 12px 32px;
   border: none;
   border-radius: 32px;
+  border: 1px solid black;
   background-color: var(--gargoyle-gas);
   font-weight: 600;
   font-size: 20px;

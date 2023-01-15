@@ -56,7 +56,6 @@ export const addNewOrder = async (wallet: string, { index }: Partial<Order>): Pr
 
 export const setUser = async (wallet: string,): Promise<void> => {
   await setDoc(getUserDocRef(wallet), { wallet });
-  // await setDoc(doc(COLLECTION_NAMES.users, wallet, 'orders', id), updates, { merge: true });
 }
 
 
@@ -78,18 +77,12 @@ export const getUser = async (wallet: string, { mi777Balance }: Partial<UserMode
 
   const userDoc = await getUserDoc(getUserDocRef(wallet));
 
-  // 1) Create or update user doc
   await setDoc(getUserDocRef(wallet), { mi777Balance: balance, wallet }, { merge: true });
 
-  // 2) Get reference to existing orders collection (creates new empty collection if non existent)
   const userOrders = await getOrders(wallet);
-  console.warn('[IN USERSTORE GET USER > userOrders()]', userOrders);
-
-  // 3) Get the difference of current balance and number of existing orders
 
   const newOrderCount = mi777Balance - userOrders.length
 
-  // 4) If difference is greater than 0, add new docs for each additional token
   if (newOrderCount > 0) {
     for (let index = 0; index < newOrderCount; index++) {
       await addNewOrder(wallet, { index: userOrders.length });
