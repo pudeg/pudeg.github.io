@@ -4,34 +4,34 @@ import { useUIStore } from "@/stores/ui.store";
 
 const images = [
   {
-    src: './src/assets/content-rows/100_0.jpg', title: 'this is title'
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_0.jpg', title: 'this is title'
   },
   {
-    src: './src/assets/content-rows/100_1.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_1.jpg',
   },
   {
-    src: './src/assets/content-rows/100_2.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_2.jpg',
   },
   {
-    src: './src/assets/content-rows/100_3.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_3.jpg',
   },
   {
-    src: './src/assets/content-rows/100_4.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_4.jpg',
   },
   {
-    src: './src/assets/content-rows/100_5.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_5.jpg',
   },
   {
-    src: './src/assets/content-rows/100_6.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_6.jpg',
   },
   {
-    src: './src/assets/content-rows/100_7.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_7.jpg',
   },
   {
-    src: './src/assets/content-rows/100_8.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_8.jpg',
   },
   {
-    src: './src/assets/content-rows/100_9.jpg',
+    src: 'https://raw.githubusercontent.com/Hamilsauce/milady-moto/master/src/assets/content-rows/100_9.jpg',
   },
 ];
 
