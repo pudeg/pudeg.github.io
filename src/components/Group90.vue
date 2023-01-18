@@ -1,9 +1,5 @@
 <script setup lang="ts">
-defineProps(["step1Mint", "mintToken"])
-// export default {
-//   name: "Group90",
-//   props: ["step1Mint", "mintToken"],
-// };
+defineProps(["step1Mint", "mintToken"]);
 </script>
 
 <template>

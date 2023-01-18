@@ -3,54 +3,23 @@ import { RouterView } from "vue-router";
 import ConnectButton from "@/components/ConnectButton.vue";
 import GotoOrderViewPrompt from "@/components/GotoOrderViewPrompt.vue";
 import Gallery from "@/components/Gallery.vue";
-import { computed } from "vue";
 import { useUserStore } from "@/stores/user.store";
-// import { exportFirestore } from '@/firestore/export-firestore'
-// const exportDb = await exportFirestore()
-// console.log(exportDb);
 
 const userStore = useUserStore();
 
-userStore.init()
+userStore.init();
 
-const onHide = () => {
-  return false;
-}
-const showOrderPrompt = computed(() => userStore.hasUnassignedTokens);
 </script>
 
 <template>
   <ConnectButton />
   <GotoOrderViewPrompt />
   <main id="app-body">
-
     <section id="router-container">
       <RouterView />
     </section>
-    <Gallery  />
+    <Gallery />
   </main>
-  <!-- <vue-easy-lightbox :visible="true" :imgs="images" :index="0" @hide="onHide">
-      <template v-slot:prev-btn="{ prev }">
-        <button @click="prev">show the prev</button>
-      </template>
-
-      <template v-slot:next-btn="{ next }">
-        <button @click="next">show the next</button>
-      </template>
-
-      <template v-slot:close-btn="{ close }">
-        <button @click="close">close lightbox</button>
-      </template>
-
-      <template v-slot:toolbar="{ toolbarMethods }">
-        <button @click="toolbarMethods.zoomIn">zoom in</button>
-        <button @click="toolbarMethods.zoomOut">zoom out</button>
-        <button @click="toolbarMethods.rotateLeft">Anticlockwise rotation</button>
-        <button @click="toolbarMethods.rotateRight">clockwise rotation</button>
-      </template>
-    </vue-easy-lightbox> -->
-    <!-- <vue-easy-lightbox :visible="true" :imgs="images" :index="0" @hide="onHide"></vue-easy-lightbox> -->
-
 </template>
 
 <style scoped>

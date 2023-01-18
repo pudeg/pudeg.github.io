@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView2 from "@/views/HomeView2.vue";
+import HomeView from "@/views/HomeView.vue";
 import { macBookPro16FrontEndData, } from "@/data/home-view-data";
 import { useUserStore } from "@/stores/user.store";
 
@@ -10,7 +10,7 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView2,
+      component: HomeView,
       props: { ...macBookPro16FrontEndData },
     },
     {
@@ -19,8 +19,8 @@ const router = createRouter({
       component: () => import("../views/VIPView.vue"),
     },
     {
-      path: "/home2",
-      component: HomeView2,
+      path: "/home",
+      component: HomeView,
       props: { ...macBookPro16FrontEndData },
     },
   ],
@@ -30,12 +30,9 @@ router.beforeEach(async (to, from) => {
   const userStore = useUserStore();
 
   if (
-    // make sure the user is authenticated
     userStore.ownedTokenIds.length === 0 &&
-    // ❗️ Avoid an infinite redirect
     to.name !== 'home'
   ) {
-    // redirect the user to the login page
     return { name: 'home' }
   }
 })

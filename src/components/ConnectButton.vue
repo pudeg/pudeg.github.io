@@ -13,11 +13,10 @@ const backgroundColor = computed(() => userStore.ownedTokenIds.length ? 'mint' :
 
 const tooltip = computed(() => userStore.ownedTokenIds.length ? 'CLICK HERE TO PLACE OR SEE JERSEY ORDERS' : userStore.isConnected ? 'CONNECTED - GO MINT' : 'CONNECT');
 
-
 const handleConnectClick = async () => {
   if (userStore.ownedTokenIds.length) {
     userStore.connect();
-    router.push('/vip');
+    router.push('/zk-shipping');
   }
   else {
     userStore.connect();

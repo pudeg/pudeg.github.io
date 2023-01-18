@@ -1,12 +1,12 @@
 import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
-import type { BalanceResponse, Order, Token, TokenResponse, UserModel, UserSubscriptions } from '@/models/user.model';
+import type { Order, Token, TokenResponse, UserModel, UserSubscriptions } from '@/models/user.model';
 import Web3 from 'web3';
-import { userCollectionRef, getOrderCollectionRef, tokenCollectionRef, getOrderRef, listenOnUser, getOrders, listenOnUserOrders, updateUserOrder, getUserDoc, getUserDocRef, addOwnerToToken, setUser } from '@/firestore/db';
+import { tokenCollectionRef, listenOnUser, getOrders, listenOnUserOrders, updateUserOrder, addOwnerToToken, setUser } from '@/firestore/db';
 import { CONSTS } from '@/data/Constants';
 import { firestore } from '@/firestore/firestore';
 import { QueryDocumentSnapshot, where } from 'firebase/firestore';
-const { collection, doc, setDoc, addDoc, getDoc, updateDoc, getDocs, query } = firestore;
+const { doc, setDoc, getDocs, query } = firestore;
 
 const initialUser: UserModel = {
   mi777Balance: null,
@@ -81,12 +81,8 @@ export const useUserStore = defineStore('user', () => {
   const init = async () => {
     const wallet = (await web3.eth.getAccounts())[0];
 
-    // const mi777Balance = wallet ? await queryWalletForTokens(wallet) : null;
-    console.warn('[STORE INIT, WALLET]', { wallet });
-
     if (wallet) {
       await handleTokens(wallet);
-      // Object.assign(userState, await fetchUser(wallet));
 
       startListeningOnUser(wallet);
       startListeningOnOrders(wallet);
@@ -100,8 +96,6 @@ export const useUserStore = defineStore('user', () => {
 
     if (wallet) {
       await handleTokens(wallet);
-
-      // await fetchUser(wallet, convertResponseToOrder(mi777Balance));
 
       startListeningOnUser(wallet);
       startListeningOnOrders(wallet);
@@ -119,21 +113,16 @@ export const useUserStore = defineStore('user', () => {
 
 
     if (matchedUnownedTokenDocs !== null) {
-
       // 1) Get/Create User
       await setUser(wallet);
 
+      const orderTokenIds = (await getOrders(wallet)).map(order => order.tokenId || '');
 
-      const orderTokenIds = (await getOrders(wallet)).map(order => order.tokenId || '')
-
-      console.warn('[STORE INIT, WALLET]', { wallet });
-
-      console.warn('[STORE HANDLE TOKENS 1]', { orderTokenIds });
       matchedUnownedTokenDocs.forEach(async (token) => {
-        const tokenId = (token.id || '').toString()
+        const tokenId = (token.id || '').toString();
 
         // 0) Update tokenDocs
-        await addOwnerToToken(token.id.toString(), wallet)
+        await addOwnerToToken(token.id.toString(), wallet);
 
         if (!orderTokenIds.includes(token.id.toString())) {
           const defaultOrder: Order = {
@@ -153,8 +142,6 @@ export const useUserStore = defineStore('user', () => {
 
   const getTokenDocs = async (wallet: string, ...tokenIds: string[]): Promise<Token[] | null> => {
     if (!tokenIds || !tokenIds.length) return [];
-    console.log({ tokenIds });
-
 
     const tokenQuery = query(tokenCollectionRef,
       where('id', 'in', tokenIds),
@@ -163,6 +150,7 @@ export const useUserStore = defineStore('user', () => {
     const tokenDocs: Token[] = (await getDocs(tokenQuery)).docs.map((_: QueryDocumentSnapshot<unknown>) => _.data() as Token);
 
     const unownedTokens = tokenDocs.filter(t => !(!!t.owner));
+
     return unownedTokens || null;
   }
 

@@ -218,28 +218,22 @@ defineProps([
 
 const userStore = useUserStore();
 const uiStore = useUIStore();
-
 const clickedMint = ref(false);
-const scatterUrl = CONSTS.scatterMintUrl;
 
 const handleMintClick = (e: UIEvent) => {
   clickedMint.value = true;
-
   const popup = open(CONSTS.scatterMintUrl, 'Mint your Milady!', 'popup=true');
 }
 const handleBuyMyJerseyClick = (e: UIEvent) => {
   if (userStore.hasBalance) {
-    router.push('/vip');
+    router.push('/zk-shipping');
   }
 }
 const handleGalleryButtonClick = (e: UIEvent) => {
-  console.log('HEARD @click="handleGalleryButtonClick"', uiStore.showGallery);
-
   uiStore.setGalleryShow(true);
 }
 
 window.addEventListener('focus', e => {
-  console.warn('HEARD THAT FOCUS');
   if (userStore.isConnected && clickedMint.value === true) {
     userStore.init();
 
@@ -1073,7 +1067,6 @@ window.addEventListener('focus', e => {
   flex-direction: column;
   margin-right: 1px;
   margin-top: 129px;
-  /* min-height: 9884px; */
   width: 2257px;
 }
 

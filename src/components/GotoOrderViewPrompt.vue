@@ -25,7 +25,7 @@ const handleCtaClick = async () => {
     const popup = open(CONSTS.scatterMintUrl, 'Mint your Milady!', 'popup=true');
   }
   else {
-    router.push('vip');
+    router.push('zk-shipping');
 
   }
 };
@@ -43,8 +43,7 @@ const setUserClosed = (state?: boolean) => {
 const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('zk-shipping') && (userStore.hasUnassignedTokens || userStore.isConnected) && userClosed.value !== true);
 
 </script>
-⛔ You need to mint mi777 first to place your Jersey orders!
-Mint then come back + Refresh
+
 <template>
   <header v-if="show" id="prompt-header" :style="{ backgroundColor: backgroundColor }">
     <section id="prompt-header-close">
@@ -103,7 +102,6 @@ Mint then come back + Refresh
   height: 400px;
 
   padding: 0 64px;
-  /* background-color: var(--order-prompt-mint); */
   color: black;
   z-index: 10;
   font-family: Comic Sans MS;
@@ -185,7 +183,6 @@ Mint then come back + Refresh
   gap: 32px;
   padding: 56px 0 0 0;
   height: 100%;
-
 }
 
 .text--purple {

@@ -5,15 +5,16 @@
     "src/**/*",
     "src/**/*.vue",
     "*/.js",
-    "vite.config.*", "vitest.config.*",
+    "vite.config.*",
+    "vitest.config.*",
   ],
-
   "compilerOptions": {
-    "types": ["node"],
-    // "strict": true,
-  "esModuleInterop": true,
-  "allowSyntheticDefaultImports": true,
-  "module": "ESNext",
+    "types": [
+      "node"
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "ESNext",
     "baseUrl": "",
     "paths": {
       "@/*": [
