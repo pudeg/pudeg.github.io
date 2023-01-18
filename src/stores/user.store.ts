@@ -6,7 +6,6 @@ import { userCollectionRef, getOrderCollectionRef, tokenCollectionRef, getOrderR
 import { CONSTS } from '@/data/Constants';
 import { firestore } from '@/firestore/firestore';
 import { QueryDocumentSnapshot, where } from 'firebase/firestore';
-
 const { collection, doc, setDoc, addDoc, getDoc, updateDoc, getDocs, query } = firestore;
 
 const initialUser: UserModel = {
@@ -29,7 +28,7 @@ export const useUserStore = defineStore('user', () => {
   const scatterUrl = computed(() => CONSTS.scatterMintUrl);
   const ownedTokenIds = computed(() => Object.keys(orders.value));
 
-  const balance = computed(() =>  userState.mi777Balance);
+  const balance = computed(() => userState.mi777Balance);
   const orderArray = computed(() => userState.orders);
   const assignedOrders = computed(() => Object.values(orders.value).filter(order => order.status !== 'SHIPPING_UNASSIGNED'));
   const unassignedOrders = computed(() => Object.values(orders.value).filter(order => order.status === 'SHIPPING_UNASSIGNED'));
@@ -159,23 +158,13 @@ export const useUserStore = defineStore('user', () => {
 
     const tokenQuery = query(tokenCollectionRef,
       where('id', 'in', tokenIds),
-    )
-
-
+    );
 
     const tokenDocs: Token[] = (await getDocs(tokenQuery)).docs.map((_: QueryDocumentSnapshot<unknown>) => _.data() as Token);
-    // const tokenDocs: any[] = (await getDocs(tokenQuery)).docs;
-    console.warn('TOKEN QURY RESULT');
 
-    console.warn({ tokenDocs });
-
-    const unownedTokens = tokenDocs.filter(t => !(!!t.owner))
-    return unownedTokens || null
+    const unownedTokens = tokenDocs.filter(t => !(!!t.owner));
+    return unownedTokens || null;
   }
-
-
-
-
 
   const queryWalletForTokens = async (wallet?: string): Promise<TokenResponse[]> => {
     if (!(isConnected && wallet)) return []
@@ -194,15 +183,6 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const convertResponseToOrder = ({ tokens }: BalanceResponse): Order[] => {
-    return tokens.map(({ TokenId }) => ({
-      tokenId: TokenId,
-      jerseySize: null,
-      shippingAddress: null,
-      status: 'SHIPPING_UNASSIGNED',
-    }))
-  }
-
   const updateOrder = async (id: string, updates: Partial<Order>): Promise<void> => {
     await updateUserOrder(user.value.wallet || '', id, updates);
   }
@@ -210,15 +190,6 @@ export const useUserStore = defineStore('user', () => {
   const getOrder = (id: string): Order => {
     return user.value.orders[id];
   }
-
-  // const fetchUser = async (wallet: string, orders: Order[]): Promise<null> => {
-  //   const res = await getUser(wallet, { mi777Balance });
-  //   Object.assign(userState, res);
-
-  //   return null;
-  // }
-
-
 
   return {
     user,

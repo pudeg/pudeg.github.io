@@ -4,6 +4,7 @@ import Group90 from '@/components/Group90.vue';
 import { ref } from "vue";
 import router from "@/router";
 import { CONSTS } from "@/data/Constants";
+import { useUIStore } from "@/stores/ui.store";
 defineProps([
   "xXtgonqzggoeUnsplash1",
   "spanText1",
@@ -214,9 +215,12 @@ defineProps([
   "group90Props",
 ]);
 
+
+const userStore = useUserStore();
+const uiStore = useUIStore();
+
 const clickedMint = ref(false);
 const scatterUrl = CONSTS.scatterMintUrl;
-const userStore = useUserStore();
 
 const handleMintClick = (e: UIEvent) => {
   clickedMint.value = true;
@@ -228,10 +232,10 @@ const handleBuyMyJerseyClick = (e: UIEvent) => {
     router.push('/vip');
   }
 }
-const handleShopifyClick = (e: UIEvent) => {
-  if (userStore.hasBalance) {
-    router.push('https://mi777.myshopify.com/');
-  }
+const handleGalleryButtonClick = (e: UIEvent) => {
+  console.log('HEARD @click="handleGalleryButtonClick"', uiStore.showGallery);
+
+  uiStore.setGalleryShow(true);
 }
 
 window.addEventListener('focus', e => {
@@ -342,9 +346,9 @@ window.addEventListener('focus', e => {
         </div>
       </div>
       <div class="flex-col-16">
-        <!-- <router-link to="/gallery-overlay">
+        <div @click="handleGalleryButtonClick">
           <div class="group-124">
-            <div class="overlap-group-8">
+            <div class="view-gallery-button overlap-group-8">
               <div class="
                   view-gallery-2
                   valign-text-middle
@@ -359,7 +363,7 @@ window.addEventListener('focus', e => {
               </div>
             </div>
           </div>
-        </router-link> -->
+        </div>
         <div class="flex-row-8">
           <div class="flex-col-17">
             <div class="group-38-1">
@@ -637,7 +641,7 @@ window.addEventListener('focus', e => {
               </span>
             </p>
           </div>
-          <!-- <router-link to="/gallery-overlay">
+          <div @click="handleGalleryButtonClick" class="view-gallery-button">
             <div class="group-111-1">
               <div class="overlap-group-8">
                 <div class="
@@ -654,7 +658,7 @@ window.addEventListener('focus', e => {
                 </div>
               </div>
             </div>
-          </router-link> -->
+          </div>
           <div class="overlap-group10-1" :style="{ 'background-image': 'url(' + overlapGroup10 + ')' }">
             <div class="x10_0">
               <model-viewer id="mi777-model-viewer-2" src="https://hamilsauce.github.io/mi777.glb" ar=""
@@ -1095,6 +1099,14 @@ window.addEventListener('focus', e => {
 
 .view-gallery-2 {
   height: 77px;
+  letter-spacing: -0.6px;
+  line-height: 45px;
+  text-align: center;
+  width: 483px;
+}
+
+.view-gallery-button {
+  /* height: 77px; */
   letter-spacing: -0.6px;
   line-height: 45px;
   text-align: center;
