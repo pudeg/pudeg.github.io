@@ -79,7 +79,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const init = async () => {
-    const wallet = (await web3.eth.getAccounts())[0];
+    const wallet = ((await web3.eth.getAccounts())[0]).toLowerCase();
 
     if (wallet) {
       await handleTokens(wallet);
@@ -92,7 +92,7 @@ export const useUserStore = defineStore('user', () => {
   const connect = async () => {
     const web3 = new Web3(Web3.givenProvider)
 
-    let wallet = (await web3.eth.getAccounts())[0] || (await web3.eth.requestAccounts())[0]
+    let wallet = ((await web3.eth.getAccounts())[0] || (await web3.eth.requestAccounts())[0]).toLowerCase()
 
     if (wallet) {
       await handleTokens(wallet);

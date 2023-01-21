@@ -1,7 +1,9 @@
 import { firestore } from './firestore';
 import fs from 'node:fs';
-import type { DocumentData, DocumentReference, QueryDocumentSnapshot } from 'firebase/firestore';
+import { setDoc, type DocumentData, type DocumentReference, type QueryDocumentSnapshot, deleteDoc } from 'firebase/firestore';
 import type { Order, Token, UserModel } from '@/models/user.model';
+
+
 
 const { doc, getDocs, collection, } = firestore;
 
@@ -11,35 +13,29 @@ const userCollection = collection('users')
 
 const userDocs = (await getDocs(userCollection))
 
-userDocs.docs.forEach(async (doc) => {
-  const data = doc.data()
-  const normalizedWallet = doc.id.toLowerCase();
+userDocs.docs.forEach(async (user) => {
+  const normalizedWallet = user.id.toLowerCase();
+  console.warn({ userDocs });
 
   const newUser = {
-    //@ts-ignore
-    wallet: normalizedWallet
+    wallet: normalizedWallet,
+    orders: (await getDocs(collection('users', user.id, 'orders'))).docs.map(order => order.data() as Order)
   }
 
-  const orders = (await getDocs(collection('users', doc.id, 'orders')))
+  console.warn({ newUser });
+  await setDoc(doc('users', normalizedWallet), { merge: true });
 
-})
+  newUser.orders.forEach(async (order) => {
+    await setDoc(doc('users', normalizedWallet, 'orders', (order?.tokenId || '')), { merge: true });
 
-userDocs.forEach((doc) => {
-  doc.
-})
+    // await deleteDoc(doc('users', user.id, 'orders', (order?.tokenId || '')));
+  });
 
-const getUserDoc = () => { }
+  // await deleteDoc(doc('users', user.id));
 
-const getUserOrderDocs = () => { }
+  console.warn('END OF USER DOCS FOR EACH');
+});
 
-const normalizeWallet = () => { }
+export const butthole = 'fuk'
 
-const normalizeTokenId = () => { }
 
-const writeUser = () => { }
-
-const writeUserOrders = () => { }
-
-const deleteUser = () => { }
-
-const deleteOrders = () => { }
