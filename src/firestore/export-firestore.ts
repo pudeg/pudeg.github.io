@@ -1,5 +1,4 @@
 
-import { async } from '@firebase/util';
 import { firestore } from './firestore';
 import fs from 'node:fs';
 import type { DocumentData, DocumentReference, QueryDocumentSnapshot } from 'firebase/firestore';
@@ -48,8 +47,11 @@ export const exportFirestore = async () => {
   console.log('STARTED');
 
   const tokenDocs = (await getDocs(collection('tokens'))).docs.map(_ => _.data()) as DocumentReference<Token>[];
-  const userDocs = (await getDocs(collection('users'))).docs.map(_ => ({ ..._.data() as UserModel, id: _.id }) as UserModelWithId)
+
+  const userDocs = (await getDocs(collection('users'))).docs.map(_ => ({ ..._.data() as UserModel, id: _.id }) as UserModelWithId);
+
   let userOrderJoin: any[] = [];
+
   console.warn({ tokenDocs, userDocs });
 
   userDocs.forEach(async (userDoc) => {
@@ -64,6 +66,7 @@ export const exportFirestore = async () => {
     })
 
   });
+
   setTimeout(() => {
     console.log({ userOrderJoin });
 
@@ -73,6 +76,27 @@ export const exportFirestore = async () => {
 
   return JSON.stringify({ tokens: tokenDocs, users: userOrderJoin })
 }
+
+
+
+
+
+const getUserDoc = () => { }
+
+const getUserOrderDocs = () => { }
+
+const normalizeWallet = () => { }
+
+const normalizeTokenId = () => { }
+
+const writeUser = () => { }
+
+const writeUserOrders = () => { }
+
+const deleteUser = () => { }
+
+const deleteOrders = () => { }
+
 
 // exportFirestore()
 
