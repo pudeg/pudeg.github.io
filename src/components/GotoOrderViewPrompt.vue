@@ -52,7 +52,9 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
     <section id="prompt-header-left" v-if="displayState === displayStates.placeOrder">
       <div class="prompt-row">
         <div>✅ Great job! You minted {{ userStore.ownedTokenIds.length }} mi777 Jersey Tokens.</div>
-        <div>🔲 But you've only placed {{ userStore.assignedOrders.length }} orders.</div>
+        <div>{{ userStore.hasUnassignedTokens ? "🔲 But you've only placed" : "✅ And you've placed" }} {{
+          userStore.assignedOrders.length
+        }} orders.</div>
       </div>
       <div class="prompt-row">
         <div class="text--purple">Proceed to the ZK-Order Experience</div>
