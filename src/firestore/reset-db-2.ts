@@ -3,7 +3,7 @@
 // import { setDoc, type DocumentData, type DocumentReference, type QueryDocumentSnapshot, deleteDoc } from 'firebase/firestore';
 // import type { Order, Token, UserModel } from '@/models/user.model';
 // const { doc, getDocs, collection, } = firestore;
-// import { dbData } from '@/firestore/mi777-db';
+import { dbData } from '@/firestore/mi777-db';
 
 // const userCollection = collection('users');
 

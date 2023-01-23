@@ -2,7 +2,7 @@ import type { Order, UserModel } from '@/models/user.model';
 import { firestore } from './firestore';
 import { type DocumentReference, type DocumentData, type DocumentSnapshot, onSnapshot, type Unsubscribe, QueryDocumentSnapshot, QuerySnapshot } from 'firebase/firestore';
 
-const { collection, doc, setDoc, addDoc, getDoc, updateDoc, getDocs } = firestore;
+const { collection, doc, setDoc, addDoc, getDoc, getDocs } = firestore;
 
 const COLLECTION_NAMES = {
   users: 'users',
@@ -45,6 +45,8 @@ export const addNewOrder = async (wallet: string, { index }: Partial<Order>): Pr
     jerseySize: null,
     shippingAddress: null,
     status: 'SHIPPING_UNASSIGNED',
+    created: firestore.Timestamp.now(),
+    modified: firestore.Timestamp.now(),
   }
 
   const collRef = collection('users', wallet, 'orders');
@@ -54,45 +56,49 @@ export const addNewOrder = async (wallet: string, { index }: Partial<Order>): Pr
   return res;
 }
 
-
 export const setUser = async (wallet: string,): Promise<void> => {
-  await setDoc(getUserDocRef(wallet), { wallet });
+  const user = await getDoc(getUserDocRef(wallet));
+
+  if (!user.exists()) {
+    await setDoc(getUserDocRef(wallet), { wallet, modified: firestore.Timestamp.now(), created: firestore.Timestamp.now() });
+  }
+
+  else {
+    const data = user.data() as UserModel;
+    await setDoc(getUserDocRef(wallet), { ...data, wallet, modified: firestore.Timestamp.now() })
+  };
 }
 
 
 export const updateUserOrder = async (wallet: string, id: string, updates: Partial<Order>): Promise<void> => {
-  await setDoc(doc(COLLECTION_NAMES.users, wallet, 'orders', id), updates, { merge: true });
+  const order = await getDoc(doc('users', wallet, 'orders', id));
+
+  if (!order.exists()) {
+    await setDoc(doc('users', wallet, 'orders', id), {
+      ...updates,
+      modified: firestore.Timestamp.now(),
+      created: firestore.Timestamp.now()
+    },
+      { merge: true }
+    );
+  }
+
+  else {
+    const data = order.data() as Order;
+    await setDoc(doc('users', wallet, 'orders', id), {
+      ...data,
+      ...updates,
+      modified: firestore.Timestamp.now(),
+    },
+      { merge: true }
+    );
+
+  }
 }
 
 export const addOwnerToToken = async (tokenId: string, wallet: string): Promise<void> => {
-  await setDoc(doc('tokens', tokenId), { id: tokenId, owner: wallet }, { merge: true });
-}
-
-export const createUser = async (wallet: string, id: string, updates: Partial<Order>): Promise<void> => {
-  await setDoc(doc(COLLECTION_NAMES.users, wallet, 'orders', id), updates, { merge: true });
-}
-
-
-export const getUser = async (wallet: string, { mi777Balance }: Partial<UserModel> = {}): Promise<UserModel> => {
-  const balance = mi777Balance || 0;
-
-  const userDoc = await getUserDoc(getUserDocRef(wallet));
-
-  await setDoc(getUserDocRef(wallet), { mi777Balance: balance, wallet }, { merge: true });
-
-  const userOrders = await getOrders(wallet);
-
-  const newOrderCount = mi777Balance - userOrders.length
-
-  if (newOrderCount > 0) {
-    for (let index = 0; index < newOrderCount; index++) {
-      await addNewOrder(wallet, { index: userOrders.length });
-    }
-  }
-
-  return {
-    //@ts-ignore
-    ...(userDoc.data()),
-    orders: (await getOrders(wallet)).reduce((acc, curr: Order, i) => ({ ...acc, [(curr.tokenId || '')]: curr }), {})
-  } as UserModel;
+  await setDoc(
+    doc('tokens', tokenId), {
+    id: tokenId, owner: wallet, modified: firestore.Timestamp.now()
+  }, { merge: true });
 }

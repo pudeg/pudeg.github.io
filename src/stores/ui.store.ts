@@ -1,9 +1,6 @@
 import { computed, reactive, ref } from 'vue';
 import { defineStore } from 'pinia';
 
-const initialUIState: any = {
-  showGallery: false,
-};
 
 export const useUIStore = defineStore('ui', () => {
   const showGalleryState = ref(false)

@@ -17,13 +17,11 @@ const disableForm = ref(order.value?.status !== 'SHIPPING_UNASSIGNED');
 const showConfirmation = computed(() => order.value?.status !== 'SHIPPING_UNASSIGNED');
 
 const jerseySizes: JerseySizeType[] = [
-  'XSmall',
   'Small',
   'Medium',
   'Large',
   'XLarge',
   'XXLarge',
-  'XXXLarge',
 ]
 
 const shippingAddress = ref(order.value?.shippingAddress ? { ...order.value.shippingAddress } : {

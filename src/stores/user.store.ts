@@ -29,7 +29,6 @@ export const useUserStore = defineStore('user', () => {
   const ownedTokenIds = computed(() => Object.keys(orders.value));
 
   const balance = computed(() => userState.mi777Balance);
-  const orderArray = computed(() => userState.orders);
   const assignedOrders = computed(() => Object.values(orders.value).filter(order => order.status !== 'SHIPPING_UNASSIGNED'));
   const unassignedOrders = computed(() => Object.values(orders.value).filter(order => order.status === 'SHIPPING_UNASSIGNED'));
 
@@ -37,9 +36,6 @@ export const useUserStore = defineStore('user', () => {
   const hasUnassignedTokens = computed(() => unassignedOrders.value.length > 0);
   const unassignedTokenCount = computed(() => unassignedOrders.value.length);
   const isConnected = computed(() => !!userState.wallet);
-
-
-
 
   const startListeningOnUser = (wallet: string) => {
     if (subscriptions.user !== null) {
@@ -65,14 +61,6 @@ export const useUserStore = defineStore('user', () => {
       ordersSnap.forEach((doc) => {
         const docId = doc.id;
         const docData = doc.data() as Order;
-        console.log('USER ORDERS FIRESTORE LISTENER');
-        console.log({
-          doId: doc.id,
-          docData,
-          userStateOrders: userState.orders,
-          selectedOrde: userState.orders[docId],
-        });
-
         userState.orders[docId] = docData;
       });
     });
@@ -107,18 +95,16 @@ export const useUserStore = defineStore('user', () => {
   const handleTokens = async (wallet: string): Promise<void> => {
     const mi777Balance: TokenResponse[] | null = await queryWalletForTokens(wallet);
 
-    const matchedUnownedTokenDocs = await getTokenDocs(wallet, ...mi777Balance.map(_ => _.TokenId))
+    const matchedUnOwnedTokenDocs = await getTokenDocs(wallet, ...mi777Balance.map(_ => _.TokenId))
 
-    console.warn('[STORE HANDLE TOKENS 1]', { mi777Balance, matchedUnownedTokenDocs });
-
-
-    if (matchedUnownedTokenDocs !== null) {
+    if (matchedUnOwnedTokenDocs !== null) {
       // 1) Get/Create User
       await setUser(wallet);
 
-      const orderTokenIds = (await getOrders(wallet)).map(order => order.tokenId || '');
+      const orderTokens = (await getOrders(wallet));
+      const orderTokenIds = (orderTokens).map(order => order.tokenId || '');
 
-      matchedUnownedTokenDocs.forEach(async (token) => {
+      matchedUnOwnedTokenDocs.forEach(async (token) => {
         const tokenId = (token.id || '').toString();
 
         // 0) Update tokenDocs
@@ -130,6 +116,8 @@ export const useUserStore = defineStore('user', () => {
             jerseySize: null,
             shippingAddress: null,
             status: 'SHIPPING_UNASSIGNED',
+            modified: firestore.Timestamp.now(),
+            created: !!token.created ? token.created : firestore.Timestamp.now()
           }
 
           // 2) Get/Create orders collection and add Order for each token
@@ -149,7 +137,7 @@ export const useUserStore = defineStore('user', () => {
 
     const tokenDocs: Token[] = (await getDocs(tokenQuery)).docs.map((_: QueryDocumentSnapshot<unknown>) => _.data() as Token);
 
-    const unownedTokens = tokenDocs.filter(t => !(!!t.owner));
+    const unownedTokens = tokenDocs.filter(t => wallet == t.owner || !(!!t.owner));
 
     return unownedTokens || null;
   }

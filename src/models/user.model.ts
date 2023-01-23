@@ -1,4 +1,4 @@
-import type { Unsubscribe } from "firebase/firestore";
+import type { Timestamp, Unsubscribe } from "firebase/firestore";
 
 export enum JerseySize {
   XSmall,
@@ -16,9 +16,13 @@ export type JerseySizeType =
   'Large' |
   'XLarge' |
   'XXLarge' |
-  'XXXLarge'
+  'XXXLarge';
 
-export interface ShippingAddress {
+export interface DocumentBase {
+  created?: Timestamp | null,
+  modified?: Timestamp | null,
+}
+export interface ShippingAddress extends DocumentBase {
   name: string;
   address1: string;
   address2?: string | null;
@@ -30,7 +34,7 @@ export interface ShippingAddress {
 
 export type OrderStatus = 'SHIPPING_UNASSIGNED' | 'SHIPPING_ASSIGNED' | 'FULFILLED' | 'CLOSED';
 
-export interface Order {
+export interface Order extends DocumentBase {
   // id?: string;
   index?: number;
   tokenId?: string;
@@ -40,7 +44,7 @@ export interface Order {
   trackingNumber?: string;
 }
 
-export interface UserModel {
+export interface UserModel extends DocumentBase {
   mi777Balance: number | null | any;
   wallet: string | null;
   orders: Record<string, Order>;
@@ -61,7 +65,7 @@ export interface BalanceMap {
   contract: string;
 }
 
-export interface Token {
+export interface Token extends DocumentBase {
   id: number | string;
   contract?: string;
   owner: string | null;
