@@ -1,6 +1,6 @@
 import type { Order, UserModel } from "@/models/user.model";
 import { initializeApp } from "firebase/app";
-import { Timestamp, getDocs, writeBatch, type DocumentData, type DocumentSnapshot, type PartialWithFieldValue, type SetOptions, type Unsubscribe, Query, QuerySnapshot, } from 'firebase/firestore'
+import { Timestamp, getDocs, writeBatch, type DocumentData, type DocumentSnapshot, type PartialWithFieldValue, type SetOptions, type Unsubscribe, Query, QuerySnapshot, Transaction, type TransactionOptions, } from 'firebase/firestore'
 import {
   Firestore,
   getFirestore,
@@ -16,6 +16,7 @@ import {
   FieldValue,
   query,
   deleteDoc,
+  runTransaction
 } from "firebase/firestore";
 
 
@@ -29,13 +30,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
+let p = runTransaction
 const instance: Firestore = getFirestore(app);
 
 export const firestore = {
   instance,
   Timestamp,
   query,
+
+  runTransaction: (updateFunction: (transaction: Transaction) => Promise<unknown>, options?: TransactionOptions): Promise<unknown> => runTransaction(instance, updateFunction, options),
   writeBatch: () => writeBatch(instance),
   onSnapshot: (pathOrDocRef: string | DocumentReference<DocumentData>, pathSegments: string[], callback: (doc: DocumentSnapshot) => void): Unsubscribe => onSnapshot(pathOrDocRef instanceof DocumentReference<DocumentData> ? pathOrDocRef : doc(instance, pathOrDocRef, ...pathSegments), callback),
   collection: (path: string, ...pathSegments: string[]): CollectionReference => collection(instance, path, ...pathSegments),

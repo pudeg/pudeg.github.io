@@ -35,7 +35,7 @@ export interface ShippingAddress extends DocumentBase {
 export type OrderStatus = 'SHIPPING_UNASSIGNED' | 'SHIPPING_ASSIGNED' | 'FULFILLED' | 'CLOSED';
 
 export interface Order extends DocumentBase {
-  // id?: string;
+  id?: string;
   index?: number;
   tokenId?: string;
   jerseySize: JerseySizeType | null;
@@ -66,8 +66,8 @@ export interface BalanceMap {
 }
 
 export interface Token extends DocumentBase {
-  id: number | string;
-  contract?: string;
+  id: string;
+  // contract?: string;
   owner: string | null;
 }
 
