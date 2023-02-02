@@ -60,10 +60,6 @@ const handleSubmit = () => {
 
 const toggleCollapse = () => {
   collapsed.value = !collapsed.value;
-
-  if (collapsed.value === false) {
-
-  }
 }
 
 </script>
@@ -72,7 +68,7 @@ const toggleCollapse = () => {
   <div class="shipping-form-view">
     <div class="shipping-form-button">
       <h1 @click="toggleCollapse" class="shipping-form-title">Order # {{ order?.tokenId }}</h1>
-      <svg v-if="showConfirmation" :class="{ arrowDown: collapsed}" width="32" height="32" viewBox="-4 -4 32 32"
+      <svg v-if="showConfirmation" :class="{ arrowDown: collapsed }" width="32" height="32" viewBox="-4 -4 32 32"
         xmlns="http://www.w3.org/2000/svg" _transform="translate(0,0) rotate(50%)"
         style="transform-origin: center center;border:1px solid #FFFFFF00;" xmlns:xlink="http://www.w3.org/1999/xlink">
         <path d=" M 1,6 13.25,17.65 M 23,6.36 10.75,17.65" style="stroke:#0000FF;stroke-width:4;" />
@@ -141,6 +137,7 @@ const toggleCollapse = () => {
 .shipping-form-view {
   width: 100%;
 }
+
 .shipping-form {
   display: flex;
   flex-direction: column;

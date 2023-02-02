@@ -1,7 +1,7 @@
 
 import { firestore } from './firestore';
 import fs from 'node:fs';
-import type { DocumentData, DocumentReference, QueryDocumentSnapshot } from 'firebase/firestore';
+import type { DocumentData, DocumentReference, QueryDocumentSnapshot, Timestamp } from 'firebase/firestore';
 import type { Order, Token, UserModel } from '@/models/user.model';
 
 const { doc, getDocs, collection } = firestore;
@@ -39,14 +39,20 @@ export const saveJsonToFile = (name: string, data: any) => {
   fs.writeFileSync(filename, JSON.stringify(data, null, 2));
 };
 
+const formatDateTime = (timestamp: Timestamp) => {
+  return `${ timestamp.toDate().toLocaleDateString() } ${ timestamp.toDate().toLocaleTimeString() }`
+}
+
 interface UserModelWithId extends UserModel {
   id: string;
 }
 
 export const exportFirestore = async () => {
-  console.log('STARTED');
+  console.time('EXPORT FIRESTORE')
+  let time = performance.now()
+  console.log('STARTED @', time);
 
-  const tokenDocs = (await getDocs(collection('tokens'))).docs.map(_ => _.data()) as DocumentReference<Token>[];
+  const tokenDocs = (await getDocs(collection('tokens'))).docs.map(_ => _.data()) as Token[];
 
   const userDocs = (await getDocs(collection('users'))).docs.map(_ => ({ ..._.data() as UserModel, id: _.id }) as UserModelWithId);
 
@@ -57,15 +63,34 @@ export const exportFirestore = async () => {
   userDocs.forEach(async (userDoc) => {
     let user = userDoc;
     const userId = userDoc.id;
-    const userOrders = (await getDocs(collection('users', userId, 'orders'))).docs.map(_ => _.data());
-    console.warn({ userOrders });
+    const userOrders = (await getDocs(collection('users', userId, 'orders'))).docs.map(_ => ({
+      //@ts-ignore
+      ..._.data(),
+      //@ts-ignore
+      created: _.data().created ? formatDateTime(_.data().created) : null,
+      //@ts-ignore
+      modified: _.data().modified ? formatDateTime(_.data().modified) : null,
+      ownedToken: tokenDocs.filter(_ => _.owner === userId).map(_ => ({
+        ..._,
+        created: _.created ? formatDateTime(_.created) : null,
+        modified: _.modified ? formatDateTime(_.modified) : null,
+      }))
+    }));
 
+    // console.warn({ userOrders });
+    const p = new Date(Date.now())
+    p.toLocaleDateString()
     userOrderJoin.push({
       ...user,
+      created: user.created ? formatDateTime(user.created) : null,
+      modified: user.modified ? formatDateTime(user.modified) : null,
       orders: userOrders
     })
 
   });
+  console.warn('ENDED @ ', performance.now() - time);
+
+  console.timeEnd('EXPORT FIRESTORE')
 
   setTimeout(() => {
     console.log({ userOrderJoin });

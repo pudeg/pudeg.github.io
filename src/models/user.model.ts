@@ -67,7 +67,6 @@ export interface BalanceMap {
 
 export interface Token extends DocumentBase {
   id: string;
-  // contract?: string;
   owner: string | null;
 }
 

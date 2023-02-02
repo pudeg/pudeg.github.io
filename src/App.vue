@@ -6,10 +6,8 @@ import Gallery from "@/components/Gallery.vue";
 import { useUserStore } from "@/stores/user.store";
 
 // import { exportFirestore } from '@/firestore/export-firestore'
-// import { butthole } from '@/firestore/reset-db-2'
-import { butthole } from './firestore/reset-token-collection'
 // const exportDb = await exportFirestore()
-// console.log(exportDb);
+// import { butthole } from './firestore/reset-token-collection'
 
 const userStore = useUserStore();
 

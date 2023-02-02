@@ -1,12 +1,18 @@
 import type { Order, UserModel } from '@/models/user.model';
 import { firestore } from './firestore';
-import { type DocumentReference, type DocumentData, type DocumentSnapshot, onSnapshot, type Unsubscribe, QueryDocumentSnapshot, QuerySnapshot } from 'firebase/firestore';
+import { type DocumentReference, type DocumentData, type DocumentSnapshot, onSnapshot, type Unsubscribe, QueryDocumentSnapshot, QuerySnapshot, where } from 'firebase/firestore';
 
-const { collection, doc, setDoc, addDoc, getDoc, getDocs } = firestore;
+const { collection, doc, setDoc, addDoc, getDoc, getDocs, collectionGroup } = firestore;
 
 const COLLECTION_NAMES = {
   users: 'users',
   orders: 'orders',
+}
+
+const collections = {
+  orders: collectionGroup('orders'),
+  tokens: collection('tokens'),
+  users: collection('users'),
 }
 
 export const userCollectionRef = collection(COLLECTION_NAMES.users);
@@ -29,6 +35,9 @@ export const listenOnUserOrders = (wallet: string, callback: (querySnapshot: Que
 
 export const getUserDoc = async (refOrPath: DocumentReference | string): Promise<DocumentSnapshot<unknown>> => {
   return await getDoc(typeof refOrPath === 'string' ? doc(refOrPath) : refOrPath);
+}
+export const getTokenDoc = async (id: string): Promise<DocumentSnapshot<unknown>> => {
+  return await getDoc(doc('tokens', id));
 }
 
 export const getFireStoreDoc = async (refOrPath: DocumentReference | string): Promise<DocumentSnapshot<unknown>> => {
@@ -101,4 +110,10 @@ export const addOwnerToToken = async (tokenId: string, wallet: string): Promise<
     doc('tokens', tokenId), {
     id: tokenId, owner: wallet, modified: firestore.Timestamp.now()
   }, { merge: true });
+}
+
+export const isTokenOwned = async (tokenId: string): Promise<boolean> => {
+  const token = await getTokenDoc(tokenId);
+
+  return token.exists();
 }
