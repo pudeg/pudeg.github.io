@@ -8,6 +8,7 @@ import { useUserStore } from "@/stores/user.store";
 // import { exportFirestore } from '@/firestore/export-firestore'
 // const exportDb = await exportFirestore()
 // import { butthole } from './firestore/reset-token-collection'
+// console.log({ exportDb });
 
 const userStore = useUserStore();
 
@@ -31,6 +32,7 @@ userStore.init();
   height: 800px;
   z-index: 200;
 }
+
 
 #app-body {
   position: relative;

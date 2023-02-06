@@ -21,7 +21,6 @@ const jerseySizes: JerseySizeType[] = [
   'Medium',
   'Large',
   'XLarge',
-  'XXLarge',
 ]
 
 const shippingAddress = ref(order.value?.shippingAddress ? { ...order.value.shippingAddress } : {

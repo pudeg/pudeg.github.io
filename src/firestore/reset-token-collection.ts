@@ -60,21 +60,21 @@ const tokenSnap = await getDocs(unownedTokenDocQuery);
 
 
 
-// tokenSnap.forEach(async (token: any) => {
+tokenSnap.forEach(async (token: any) => {
 //   const stringId = token.id.toString()
 //   //     console.error(e);
-//   await setDoc(doc('tokens', stringId), {
-//     owner: token.owner || null,
-//     id: stringId,
-//     modified: firestore.Timestamp.now(),
-//   }, { merge: true });
+  await setDoc(doc('tokens', stringId), {
+    owner: token.owner || null,
+    id: stringId,
+    modified: firestore.Timestamp.now(),
+  }, { merge: true });
 
 //   console.warn('just ran', { stringId });
 
 //   // (token.orders || []).forEach(async (order: any) => {
 //   //   await setDoc(doc('tokens', token.wallet, 'orders', order.tokenId), { ...order }, { merge: true });
 //   // });
-// });
+});
 
 
 //   try {

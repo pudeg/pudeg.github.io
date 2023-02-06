@@ -6,22 +6,20 @@ export enum JerseySize {
   Medium,
   Large,
   XLarge,
-  XXLarge,
-  XXXLarge
 }
+
 export type JerseySizeType =
   'XSmall' |
   'Small' |
   'Medium' |
   'Large' |
-  'XLarge' |
-  'XXLarge' |
-  'XXXLarge';
+  'XLarge';
 
 export interface DocumentBase {
   created?: Timestamp | null,
   modified?: Timestamp | null,
 }
+
 export interface ShippingAddress extends DocumentBase {
   name: string;
   address1: string;

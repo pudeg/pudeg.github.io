@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import type { DocumentData, DocumentReference, QueryDocumentSnapshot, Timestamp } from 'firebase/firestore';
 import type { Order, Token, UserModel } from '@/models/user.model';
 
-const { doc, getDocs, collection } = firestore;
+const { doc, getDocs, collection, collectionGroup } = firestore;
 
 const download = (filename: string, text: string) => {
   const element = document.createElement('a');
@@ -46,8 +46,76 @@ const formatDateTime = (timestamp: Timestamp) => {
 interface UserModelWithId extends UserModel {
   id: string;
 }
+interface ExportModel {
+  tokenDocs: Token[]
+  userDocs: UserModel[]
+  orderDocs: Order[]
+}
 
 export const exportFirestore = async () => {
+  console.time('EXPORT FIRESTORE')
+  let time = performance.now()
+  console.log('STARTED @', time);
+
+  // const tokenDocs = (await getDocs(collection('tokens'))).docs.map(_ => _.data() as Token).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null }));
+
+  // const userDocs = (await getDocs(collection('users'))).docs.map(_ => _.data() as UserModel).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null }));
+
+  // const orderDocs = (await getDocs(collectionGroup('orders'))).docs.map(_ => ({ ..._.data() as Order, orderId: _.ref.id })).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null }));
+
+  const dbExport: any = {
+    tokenDocs: (await getDocs(collection('tokens'))).docs.map(_ => _.data() as Token).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null })),
+    userDocs: (await getDocs(collection('users'))).docs.map(_ => _.data() as UserModel).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null })),
+    orderDocs: (await getDocs(collectionGroup('orders'))).docs.map(_ => ({ ..._.data() as Order, orderId: _.ref.id })).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null })),
+  }
+
+  // let userOrderJoin: any[] = [];
+
+  // console.warn({ tokenDocs, userDocs });
+
+  // userDocs.forEach(async (userDoc) => {
+  //   let user = userDoc;
+  //   const userId = userDoc.wallet || '';
+  //   const userOrders = (await getDocs(collection('users', userId, 'orders'))).docs.map(_ => ({
+  //     //@ts-ignore
+  //     ..._.data(),
+  //     //@ts-ignore
+  //     created: _.data().created ? formatDateTime(_.data().created) : null,
+  //     //@ts-ignore
+  //     modified: _.data().modified ? formatDateTime(_.data().modified) : null,
+  //     ownedToken: tokenDocs.filter(_ => _.owner === userId).map(_ => ({
+  //       ..._,
+  //       created: _.created ? formatDateTime(_.created) : null,
+  //       modified: _.modified ? formatDateTime(_.modified) : null,
+  //     }))
+  //   }));
+
+  //   const p = new Date(Date.now());
+
+  //   p.toLocaleDateString();
+
+  //   userOrderJoin.push({
+  //     ...user,
+  //     created: user.created ? formatDateTime(user.created) : null,
+  //     modified: user.modified ? formatDateTime(user.modified) : null,
+  //     orders: userOrders
+  //   })
+
+  // });
+  // console.warn('ENDED @ ', performance.now() - time);
+
+  // console.timeEnd('EXPORT FIRESTORE')
+
+  setTimeout(() => {
+
+    download('milady-db-export.json', JSON.stringify(dbExport, null, 2))
+  }, 1000);
+
+
+  return JSON.stringify(dbExport, null, 2)
+}
+
+export const batchUpdateOrders = async () => {
   console.time('EXPORT FIRESTORE')
   let time = performance.now()
   console.log('STARTED @', time);
@@ -77,9 +145,10 @@ export const exportFirestore = async () => {
       }))
     }));
 
-    // console.warn({ userOrders });
-    const p = new Date(Date.now())
-    p.toLocaleDateString()
+    const p = new Date(Date.now());
+
+    p.toLocaleDateString();
+
     userOrderJoin.push({
       ...user,
       created: user.created ? formatDateTime(user.created) : null,
@@ -99,5 +168,5 @@ export const exportFirestore = async () => {
   }, 1000);
 
 
-  return JSON.stringify({ tokens: tokenDocs, users: userOrderJoin })
+  return JSON.stringify({ tokens: tokenDocs, users: userOrderJoin });
 }

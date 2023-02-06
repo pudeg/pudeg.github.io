@@ -73,12 +73,14 @@ export const useUserStore = defineStore('user', () => {
       await handleTokens(wallet);
 
       startListeningOnUser(wallet);
+
       startListeningOnOrders(wallet);
     }
   }
 
   const connect = async () => {
-    const web3 = new Web3(Web3.givenProvider)
+    const web3 = new Web3(Web3.givenProvider);
+
     let wallet = ((await web3.eth.getAccounts())[0] || (await web3.eth.requestAccounts())[0]).toLowerCase()
 
     if (wallet) {
@@ -99,10 +101,10 @@ export const useUserStore = defineStore('user', () => {
 
       const orderTokens = (await getOrders(wallet));
 
-      const orderTokenIds = (orderTokens).map(order => order.tokenId || '');
+      const orderTokenIds = (orderTokens).map(order => (order.tokenId || '').toString());
 
       matchedUnOwnedTokenDocs.forEach(async (token) => {
-        const tokenId = (token.id || '').toString();
+        const tokenId = token.id;
 
         // 0) Update tokenDocs
         if (!orderTokenIds.includes(token.id.toString())) {
@@ -120,7 +122,6 @@ export const useUserStore = defineStore('user', () => {
         }
       })
     }
-
   }
 
   const getTokenDocs = async (...tokenIds: string[]): Promise<Token[]> => {
@@ -142,6 +143,7 @@ export const useUserStore = defineStore('user', () => {
       })).json();
 
       return tokens;
+
     } catch (error) {
       console.error('queryWalletForTokens' + error);
       return [];
