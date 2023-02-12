@@ -1,12 +1,18 @@
 import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
-import type { Order, Token, TokenResponse, UserModel, UserSubscriptions } from '@/models/user.model';
-import Web3 from 'web3';
-import { tokenCollectionRef, listenOnUser, getOrders, listenOnUserOrders, updateUserOrder, addOwnerToToken, setUser } from '@/firestore/db';
+import type { Order, Token, TokenHoldingsResponse, TokenResponse, UserModel, UserSubscriptions } from '@/models/user.model';
+import { tokenCollectionRef, listenOnUser, getOrders, listenOnUserOrders, updateUserOrder, setUser } from '@/firestore/db';
 import { CONSTS } from '@/data/Constants';
 import { firestore } from '@/firestore/firestore';
 import { QueryDocumentSnapshot, where } from 'firebase/firestore';
-const { doc, setDoc, getDocs, query, connectFirestoreEmulator } = firestore;
+const { doc, setDoc, getDocs, query } = firestore;
+import Web3 from 'web3';
+
+export interface WalletHoldingResponse {
+  timestamp: string;
+  wallet: string;
+  tokens: string[];
+}
 
 const initialUser: UserModel = {
   mi777Balance: null,
@@ -89,9 +95,10 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const handleTokens = async (wallet: string): Promise<void> => {
-    const mi777Balance: TokenResponse[] | null = await queryWalletForTokens(wallet);
+    const holdings: WalletHoldingResponse | null = await queryWalletForTokens(wallet);
+    if (!holdings) return;
 
-    const matchedTokenDocs = await getTokenDocs(...mi777Balance.map(_ => _.TokenId));
+    const matchedTokenDocs = await getTokenDocs(...holdings.tokens);
 
     const matchedUnOwnedTokenDocs = matchedTokenDocs.filter(t => wallet == t.owner || !(!!t.owner));
 
@@ -106,6 +113,8 @@ export const useUserStore = defineStore('user', () => {
       matchedUnOwnedTokenDocs.forEach(async (token) => {
         const tokenId = token.id;
 
+
+        // TODO Move to OnCreate Cloud function
         // 0) Update tokenDocs
         if (!orderTokenIds.includes(token.id.toString())) {
           const defaultOrder: Order = {
@@ -132,21 +141,21 @@ export const useUserStore = defineStore('user', () => {
     return (await getDocs(tokenQuery)).docs.map((_: QueryDocumentSnapshot<unknown>) => _.data() as Token);
   }
 
-  const queryWalletForTokens = async (wallet?: string): Promise<TokenResponse[]> => {
-    if (!(isConnected && wallet)) return []
+  const queryWalletForTokens = async (wallet?: string): Promise<WalletHoldingResponse | null> => {
+    if (!(isConnected && wallet)) return null;
 
-    const endpoint = `${ CONSTS.MILADY_BALANCE_ENDPOINT }/${ wallet }`;
+    const endpoint = `${ CONSTS.getMiladyBalanceLocal }/${ wallet }`;
 
     try {
-      const { tokens }: any = await (await fetch(endpoint, {
+      const holdings: WalletHoldingResponse = await (await fetch(endpoint, {
         method: 'GET',
       })).json();
 
-      return tokens;
+      return holdings;
 
     } catch (error) {
       console.error('queryWalletForTokens' + error);
-      return [];
+      return null;
     }
   }
 

@@ -64,9 +64,9 @@ export const exportFirestore = async () => {
   // const orderDocs = (await getDocs(collectionGroup('orders'))).docs.map(_ => ({ ..._.data() as Order, orderId: _.ref.id })).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null }));
 
   const dbExport: any = {
-    tokenDocs: (await getDocs(collection('tokens'))).docs.map(_ => _.data() as Token).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null })),
-    userDocs: (await getDocs(collection('users'))).docs.map(_ => _.data() as UserModel).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null })),
-    orderDocs: (await getDocs(collectionGroup('orders'))).docs.map(_ => ({ ..._.data() as Order, orderId: _.ref.id })).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.created ? formatDateTime(_.created) : null })),
+    tokenDocs: (await getDocs(collection('tokens'))).docs.map(_ => _.data() as Token).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.modified ? formatDateTime(_.modified) : null })),
+    userDocs: (await getDocs(collection('users'))).docs.map(_ => _.data() as UserModel).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.modified ? formatDateTime(_.modified) : null })),
+    orderDocs: (await getDocs(collectionGroup('orders'))).docs.map(_ => ({ ..._.data() as Order, orderId: _.ref.id, user: _.ref.parent.parent?.id })).map(_ => ({ ..._, created: _.created ? formatDateTime(_.created) : null, modified: _.modified ? formatDateTime(_.modified) : null })),
   }
 
   // let userOrderJoin: any[] = [];

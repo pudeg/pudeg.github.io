@@ -72,6 +72,11 @@ export interface TokenResponse {
   TokenAddress: string;
   TokenId: string;
 };
+export interface TokenHoldingsResponse {
+  timestamp: number;
+  holdings: string[];
+  wallet: string;
+};
 
 export interface BalanceResponse {
   contract: string;
