@@ -73,7 +73,7 @@ export const useUserStore = defineStore('user', () => {
   const init = async () => {
     const web3 = new Web3(Web3.givenProvider)
 
-    const wallet = ((await web3.eth.getAccounts())[0]).toLowerCase();
+    const wallet = ((await web3.eth.getAccounts())[0] || '').toLowerCase();
 
     if (wallet) {
       await handleTokens(wallet);
@@ -91,6 +91,29 @@ export const useUserStore = defineStore('user', () => {
 
     if (wallet) {
       await handleTokens(wallet);
+
+      startListeningOnUser(wallet);
+
+      startListeningOnOrders(wallet);
+    }
+  }
+
+
+  const queryWalletForTokens = async (wallet?: string): Promise<WalletHoldingResponse | null> => {
+    if (!(isConnected && wallet)) return null;
+
+    const endpoint = `${ CONSTS.getUserStateLocal }/${ wallet }`;
+
+    try {
+      const holdings: WalletHoldingResponse = await (await fetch(endpoint, {
+        method: 'GET',
+      })).json();
+
+      return holdings;
+
+    } catch (error) {
+      console.error('queryWalletForTokens' + error);
+      return null;
     }
   }
 
@@ -98,9 +121,19 @@ export const useUserStore = defineStore('user', () => {
     const holdings: WalletHoldingResponse | null = await queryWalletForTokens(wallet);
     if (!holdings) return;
 
-    const matchedTokenDocs = await getTokenDocs(...holdings.tokens);
+    // ************  MUST CHANGE BACK TO HOLDINGS.TOKENS ***********************
+    //@ts-ignore
+    const matchedTokenDocs = await getTokenDocs(...holdings.holdings);
+    // ************  MUST CHANGE BACK TO HOLDINGS.TOKENS ***********************
+    console.log({matchedTokenDocs});
+
+    if (!matchedTokenDocs.length) {
+      userState.wallet = wallet;
+      userState.mi777Balance = 0;
+    }
 
     const matchedUnOwnedTokenDocs = matchedTokenDocs.filter(t => wallet == t.owner || !(!!t.owner));
+    console.warn({matchedUnOwnedTokenDocs});
 
     if (matchedUnOwnedTokenDocs.length) {
       // 1) Get/Create User
@@ -141,23 +174,6 @@ export const useUserStore = defineStore('user', () => {
     return (await getDocs(tokenQuery)).docs.map((_: QueryDocumentSnapshot<unknown>) => _.data() as Token);
   }
 
-  const queryWalletForTokens = async (wallet?: string): Promise<WalletHoldingResponse | null> => {
-    if (!(isConnected && wallet)) return null;
-
-    const endpoint = `${ CONSTS.getMiladyBalanceLocal }/${ wallet }`;
-
-    try {
-      const holdings: WalletHoldingResponse = await (await fetch(endpoint, {
-        method: 'GET',
-      })).json();
-
-      return holdings;
-
-    } catch (error) {
-      console.error('queryWalletForTokens' + error);
-      return null;
-    }
-  }
 
   const updateOrder = async (id: string, updates: Partial<Order>): Promise<void> => {
     await updateUserOrder(user.value.wallet || '', id, updates);

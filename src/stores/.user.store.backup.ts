@@ -1,12 +1,18 @@
 import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
-import type { Order, Token, TokenResponse, UserModel, UserSubscriptions } from '@/models/user.model';
-import Web3 from 'web3';
-import { tokenCollectionRef, listenOnUser, getOrders, listenOnUserOrders, updateUserOrder, addOwnerToToken, setUser } from '@/firestore/db';
+import type { Order, Token, TokenHoldingsResponse, TokenResponse, UserModel, UserSubscriptions } from '@/models/user.model';
+import { tokenCollectionRef, listenOnUser, getOrders, listenOnUserOrders, updateUserOrder, setUser } from '@/firestore/db';
 import { CONSTS } from '@/data/Constants';
 import { firestore } from '@/firestore/firestore';
 import { QueryDocumentSnapshot, where } from 'firebase/firestore';
 const { doc, setDoc, getDocs, query } = firestore;
+import Web3 from 'web3';
+
+export interface WalletHoldingResponse {
+  timestamp: string;
+  wallet: string;
+  tokens: string[];
+}
 
 const initialUser: UserModel = {
   mi777Balance: null,
@@ -15,8 +21,6 @@ const initialUser: UserModel = {
 };
 
 export const useUserStore = defineStore('user', () => {
-  const web3 = new Web3(Web3.givenProvider);
-
   const subscriptions: UserSubscriptions = {
     user: null,
     orders: null
@@ -67,53 +71,81 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const init = async () => {
-    const wallet = ((await web3.eth.getAccounts())[0]).toLowerCase();
+    const web3 = new Web3(Web3.givenProvider)
+
+    const wallet = ((await web3.eth.getAccounts())[0] || '').toLowerCase();
 
     if (wallet) {
       await handleTokens(wallet);
 
       startListeningOnUser(wallet);
+
       startListeningOnOrders(wallet);
     }
   }
 
   const connect = async () => {
-    const web3 = new Web3(Web3.givenProvider)
+    const web3 = new Web3(Web3.givenProvider);
 
     let wallet = ((await web3.eth.getAccounts())[0] || (await web3.eth.requestAccounts())[0]).toLowerCase()
 
     if (wallet) {
       await handleTokens(wallet);
-
-      startListeningOnUser(wallet);
-      startListeningOnOrders(wallet);
     }
   }
 
 
+  const queryWalletForTokens = async (wallet?: string): Promise<WalletHoldingResponse | null> => {
+    if (!(isConnected && wallet)) return null;
+
+    const endpoint = `${ CONSTS.getMiladyBalanceLocal }/${ wallet }`;
+
+    try {
+      const holdings: WalletHoldingResponse = await (await fetch(endpoint, {
+        method: 'GET',
+      })).json();
+
+      return holdings;
+
+    } catch (error) {
+      console.error('queryWalletForTokens' + error);
+      return null;
+    }
+  }
 
   const handleTokens = async (wallet: string): Promise<void> => {
-    const mi777Balance: TokenResponse[] | null = await queryWalletForTokens(wallet);
+    const holdings: WalletHoldingResponse | null = await queryWalletForTokens(wallet);
+    if (!holdings) return;
 
-    const matchedTokenDocs = await getTokenDocs(wallet, ...mi777Balance.map(_ => _.TokenId));
+    // ************  MUST CHANGE BACK TO HOLDINGS.TOKENS ***********************
+    //@ts-ignore
+    const matchedTokenDocs = await getTokenDocs(...holdings.holdings);
+    // ************  MUST CHANGE BACK TO HOLDINGS.TOKENS ***********************
+    console.log({matchedTokenDocs});
+
+    if (!matchedTokenDocs.length) {
+      userState.wallet = wallet;
+      userState.mi777Balance = 0;
+
+    }
 
     const matchedUnOwnedTokenDocs = matchedTokenDocs.filter(t => wallet == t.owner || !(!!t.owner));
-
-    // const matchedUnOwnedTokenDocs = await getTokenDocs(wallet, ...mi777Balance.map(_ => _.TokenId))
+    console.warn({matchedUnOwnedTokenDocs});
 
     if (matchedUnOwnedTokenDocs.length) {
       // 1) Get/Create User
       await setUser(wallet);
 
       const orderTokens = (await getOrders(wallet));
-      const orderTokenIds = (orderTokens).map(order => order.tokenId || '');
+
+      const orderTokenIds = (orderTokens).map(order => (order.tokenId || '').toString());
 
       matchedUnOwnedTokenDocs.forEach(async (token) => {
-        const tokenId = (token.id || '').toString();
+        const tokenId = token.id;
 
+
+        // TODO Move to OnCreate Cloud function
         // 0) Update tokenDocs
-        await addOwnerToToken(token.id.toString(), wallet);
-
         if (!orderTokenIds.includes(token.id.toString())) {
           const defaultOrder: Order = {
             tokenId: (token.id || '').toString(),
@@ -129,47 +161,19 @@ export const useUserStore = defineStore('user', () => {
         }
       })
     }
-
   }
 
-  const getTokenDocs = async (wallet: string, ...tokenIds: string[]): Promise<Token[]> => {
+  const getTokenDocs = async (...tokenIds: string[]): Promise<Token[]> => {
     if (!tokenIds || !tokenIds.length) return [];
 
-    const tokenQuery = query(tokenCollectionRef,
-      where('id', 'in', tokenIds),
-    );
+    const tokenQuery = query(tokenCollectionRef, where('id', 'in', tokenIds),);
 
-    const tokenDocs: Token[] = (await getDocs(tokenQuery)).docs.map((_: QueryDocumentSnapshot<unknown>) => _.data() as Token);
-
-    const unownedTokens = tokenDocs.filter(t => wallet == t.owner || !(!!t.owner));
-
-    return tokenDocs || [];
-    return unownedTokens || null;
+    return (await getDocs(tokenQuery)).docs.map((_: QueryDocumentSnapshot<unknown>) => _.data() as Token);
   }
 
-  const queryWalletForTokens = async (wallet?: string): Promise<TokenResponse[]> => {
-    if (!(isConnected && wallet)) return []
-
-    const endpoint = `${ CONSTS.MILADY_BALANCE_ENDPOINT }/${ wallet }`;
-
-    try {
-      const { tokens }: any = await (await fetch(endpoint, {
-        method: 'GET',
-      })).json();
-
-      return tokens;
-    } catch (error) {
-      console.error('queryWalletForTokens' + error);
-      return [];
-    }
-  }
 
   const updateOrder = async (id: string, updates: Partial<Order>): Promise<void> => {
     await updateUserOrder(user.value.wallet || '', id, updates);
-  }
-
-  const getOrder = (id: string): Order => {
-    return user.value.orders[id];
   }
 
   return {
@@ -185,7 +189,6 @@ export const useUserStore = defineStore('user', () => {
     init,
     connect,
     unassignedOrders,
-    getOrder,
     updateOrder,
     scatterUrl,
     ownedTokenIds

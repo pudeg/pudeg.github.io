@@ -13,7 +13,6 @@
       "node"
     ],
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "module": "ESNext",
     "baseUrl": "",
     "paths": {

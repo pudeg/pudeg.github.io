@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import router from "@/router";
-import { useUserStore } from "@/stores/user.store";
+import { useUserStore } from "@/stores/user.store.rewrite";
 import { computed } from "vue";
 
 const userStore = useUserStore();
 
 const DEFAULT_CONNECT_TEXT = 'Connect';
 
-const connectButtonContent = computed(() => userStore.isConnected ? `${ userStore.user.wallet?.slice(0, 6).toLowerCase() }...${ userStore.user.wallet?.slice(-5, -1).toLowerCase() }` : DEFAULT_CONNECT_TEXT);
+const connectButtonContent = computed(() => userStore.isConnected ? `${ userStore.wallet?.slice(0, 6).toLowerCase() }...${ userStore.user.wallet?.slice(-4).toLowerCase() }` : DEFAULT_CONNECT_TEXT);
 
-const backgroundColor = computed(() => userStore.ownedTokenIds.length ? 'mint' : userStore.isConnected ? 'gray' : '');
+const backgroundColor = computed(() => userStore.hasClaimableTokens ? 'mint' : userStore.isConnected ? 'gray' : '');
 
-const tooltip = computed(() => userStore.ownedTokenIds.length ? 'CLICK HERE TO PLACE OR SEE JERSEY ORDERS' : userStore.isConnected ? 'CONNECTED - GO MINT' : 'CONNECT');
+const tooltip = computed(() => userStore.hasClaimableTokens ? 'CLICK HERE TO PLACE OR SEE JERSEY ORDERS' : userStore.isConnected ? 'CONNECTED - GO MINT' : 'CONNECT');
 
 const handleConnectClick = async () => {
-  if (userStore.ownedTokenIds.length) {
+  if (userStore.hasClaimableTokens) {
     userStore.connect();
     router.push('/zk-shipping');
   }
