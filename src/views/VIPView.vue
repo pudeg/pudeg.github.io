@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/user.store';
+import { useUserStore } from '@/stores/user.store.rewrite';
 import { ref } from 'vue';
 import ShippingForm from '@/components/ShippingForm.vue';
 import AppMenu from '@/components/AppMenu.vue';
@@ -34,8 +34,8 @@ const toggleMenu = () => {
       </div>
       <div id="header-content-right">
         <div class="caption-text">mi777: the MiladyMoto Jersey</div>
-        <div class="header-text">Minted {{ userStore.ownedTokenIds.length }} Jerseys. Placed {{
-          userStore.assignedOrders.length
+        <div class="header-text">Minted {{ userStore.totalTokensMinted }} Jerseys. Placed {{
+          userStore.tokens.claimedByUser.length
         }}
           Order</div>
         <div class="header-right-bottom">
@@ -49,7 +49,7 @@ const toggleMenu = () => {
     </div>
     <div v-else class="shipping-forms">
       <h1>Have jersey</h1>
-      <ShippingForm v-for="(order, index) in userStore.orders" :order-id="order.tokenId" />
+      <ShippingForm v-for="(tokenId, index) in userStore.tokens.unclaimed" :key="index" :order-id="tokenId" />
     </div>
   </section>
   <AppMenu @closemenu="toggleMenu" :show="showMenu" />

@@ -74,6 +74,8 @@ export const useUserStore = defineStore('user', () => {
 
   const hasClaimableTokens = computed(() => !!tokens.value.unclaimed.length);
 
+  const totalTokensMinted = computed(() => tokens.value.claimedByUser.length + tokens.value.inWallet.length);
+
   const init = async () => {
     const web3 = new Web3(Web3.givenProvider)
 
@@ -105,7 +107,7 @@ export const useUserStore = defineStore('user', () => {
   const setState = async (wallet: string) => {
     if (!(isConnected && wallet)) return null;
 
-    const endpoint = `${ CONSTS.getMiladyBalanceLocal }/${ wallet }`;
+    const endpoint = `${ CONSTS.getUserStateLocal }/${ wallet }`;
 
     const response: UserModel = await (await fetch(endpoint, {
       method: 'GET',
@@ -152,6 +154,7 @@ export const useUserStore = defineStore('user', () => {
     tokens,
     wallet,
     hasClaimableTokens,
+    totalTokensMinted,
     isConnected,
     init,
     connect,

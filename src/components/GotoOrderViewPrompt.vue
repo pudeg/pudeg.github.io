@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user.store";
+import { useUserStore } from "@/stores/user.store.rewrite";
 import { computed, ref } from "vue";
 import router from "@/router";
 import { useRoute } from "vue-router";
@@ -15,7 +15,7 @@ const checkboxes = {
   checked: '✅',
   unchecked: '🔲'
 }
-const displayState = computed(() => userStore.ownedTokenIds.length ? displayStates.placeOrder : userStore.isConnected ? displayStates.mintToken : displayStates.connect);
+const displayState = computed(() => userStore.tokens.unclaimed.length ? displayStates.placeOrder : userStore.isConnected ? displayStates.mintToken : displayStates.connect);
 const ctaTextContent = computed(() => displayState.value === displayStates.placeOrder ? 'Place my Jersey Orders!' : 'Mint mi777 tokens');
 const backgroundColor = computed(() => displayState.value === displayStates.placeOrder ? 'var(--order-prompt-mint)' : 'var(--order-prompt-red)');
 
@@ -40,7 +40,7 @@ const setUserClosed = (state?: boolean) => {
   userClosed.value = state ? state : !userClosed.value
 };
 
-const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('zk-shipping') && (userStore.hasUnassignedTokens || userStore.isConnected) && userClosed.value !== true);
+const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('zk-shipping') && (userStore.tokens.unclaimed || userStore.isConnected) && userClosed.value !== true);
 
 </script>
 
@@ -51,9 +51,9 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
     </section>
     <section id="prompt-header-left" v-if="displayState === displayStates.placeOrder">
       <div class="prompt-row">
-        <div>✅ Great job! You minted {{ userStore.ownedTokenIds.length }} mi777 Jersey Tokens.</div>
-        <div>{{ userStore.hasUnassignedTokens ? "🔲 But you've only placed" : "✅ And you've placed" }} {{
-          userStore.assignedOrders.length
+        <div>✅ Great job! You minted {{ userStore.totalTokensMinted }} mi777 Jersey Tokens.</div>
+        <div>{{ userStore.tokens.unclaimed.length ? "🔲 But you've only placed" : "✅ And you've placed" }} {{
+          userStore.tokens.claimedByUser.length
         }} orders.</div>
       </div>
       <div class="prompt-row">
