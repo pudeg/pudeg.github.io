@@ -9,11 +9,9 @@ export enum JerseySize {
 }
 
 export type JerseySizeType =
-  'XSmall' |
   'Small' |
   'Medium' |
-  'Large' |
-  'XLarge';
+  'Large';
 
 export interface DocumentBase {
   created?: Timestamp | null,

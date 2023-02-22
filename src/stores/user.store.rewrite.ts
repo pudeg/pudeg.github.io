@@ -1,42 +1,9 @@
-import { computed, reactive, ref, type Ref } from 'vue';
+import { computed, ref, type Ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { Order, Token, TokenResponse, UserSubscriptions } from '@/models/user.model';
+import type { UserSubscriptions } from '@/models/user.model';
 import Web3 from 'web3';
-import { tokenCollectionRef, listenOnUser, getOrders, listenOnUserOrders, updateUserOrder, addOwnerToToken, setUser } from '@/firestore/db';
 import { CONSTS } from '@/data/Constants';
-import { firestore } from '@/firestore/firestore';
-import { QueryDocumentSnapshot, where } from 'firebase/firestore';
-const { doc, setDoc, getDocs, query, connectFirestoreEmulator } = firestore;
 
-
-/* *
-
- @  READ DATA - NO USER BEING ADDED TO DB YET
- *
- *  User Connects, providing wallet
- *
- *  Send to a handleConnectedWallet function
- *
- *  >  handleConnectedWallet will query blockchain for wallet's mi777 Tokens holdings
- *
- *  >  handleConnectedWallet will search Token Collection for any Tokens owned by Wallet OR any unowned Tokens in Wallet Holdings;
- *
- *  >  handleConnectedWallet will send respond of { claimedTokens, unclaimedTokens: holdings.tokens.filter(tokenId => !claimedTokens.some(claimedToken => claimedToken.id === token)) }
- *
- * ALL USER STATE STILL ONLY FRONT END - NO WRITING TO DB UNTIL USER SUBMITS ORDER
- *
- *
- * On submit of Shipping (on 'users/orders{id}' Create)
- *
- *  Mark Token Owned
- *
- */
-
-// const initialUser: UserModel = {
-//   mi777Balance: null,
-//   wallet: null,
-//   orders: {},
-// };
 
 interface UserModel {
   wallet: string | null;
@@ -70,11 +37,14 @@ export const useUserStore = defineStore('user', () => {
 
   const tokens = computed(() => userState.value.tokens)
 
+  const claimedAndClaimableTokens = computed(() => [...tokens.value.claimedByUser, ...tokens.value.unclaimed])
+
   const isConnected = computed(() => !!userState.value.wallet);
 
   const hasClaimableTokens = computed(() => !!tokens.value.unclaimed.length);
 
-  const totalTokensMinted = computed(() => tokens.value.claimedByUser.length + tokens.value.inWallet.length);
+  const balance = computed(() => new Set([...tokens.value.claimedByUser, ...tokens.value.inWallet]));
+  const totalTokensMinted = computed(() => balance.value.size);
 
   const init = async () => {
     const web3 = new Web3(Web3.givenProvider)
@@ -83,10 +53,6 @@ export const useUserStore = defineStore('user', () => {
 
     if (wallet) {
       await setState(wallet);
-
-      //   await handleTokens(wallet);
-      //   startListeningOnUser(wallet);
-      //   startListeningOnOrders(wallet);
     }
   }
 
@@ -97,10 +63,6 @@ export const useUserStore = defineStore('user', () => {
 
     if (wallet) {
       await setState(wallet);
-
-      //   await handleTokens(wallet);
-      //   startListeningOnUser(wallet);
-      //   startListeningOnOrders(wallet);
     }
   }
 
@@ -119,35 +81,6 @@ export const useUserStore = defineStore('user', () => {
     console.warn('userState.value', userState.value)
   }
 
-  // const startListeningOnUser = (wallet: string) => {
-  //   if (subscriptions.user !== null) {
-  //     subscriptions.user();
-  //     subscriptions.user = null;
-  //   }
-
-  //   subscriptions.user = listenOnUser(wallet, (doc) => {
-  //     const docData = doc.data()
-
-  //     console.warn({ docData });
-  //     Object.assign(userState, docData);
-  //   })
-  // }
-
-  // const startListeningOnOrders = (wallet: string) => {
-  //   if (subscriptions.orders !== null) {
-  //     subscriptions.orders();
-  //     subscriptions.orders = null;
-  //   }
-
-  //   subscriptions.orders = listenOnUserOrders(wallet, (ordersSnap) => {
-  //     ordersSnap.forEach((doc) => {
-  //       const docId = doc.id;
-  //       const docData = doc.data() as Order;
-  //       userState.orders[docId] = docData;
-  //     });
-  //   });
-  // }
-
   return {
     setState,
     user,
@@ -158,5 +91,6 @@ export const useUserStore = defineStore('user', () => {
     isConnected,
     init,
     connect,
+    claimedAndClaimableTokens,
   }
 });

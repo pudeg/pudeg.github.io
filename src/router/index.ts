@@ -30,7 +30,7 @@ router.beforeEach(async (to, from) => {
   const userStore = useUserStore();
 
   if (
-   !userStore.tokens.unclaimed.length || !userStore.tokens.claimedByUser.length &&
+    !userStore.tokens.unclaimed.length && !userStore.tokens.claimedByUser.length &&
     to.name !== 'home'
   ) {
     return { name: 'home' }

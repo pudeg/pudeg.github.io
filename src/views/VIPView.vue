@@ -1,22 +1,43 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/user.store.rewrite';
-import { ref } from 'vue';
+import { useOrderStore } from '@/stores/order.store';
+import { onMounted, ref } from 'vue';
 import ShippingForm from '@/components/ShippingForm.vue';
 import AppMenu from '@/components/AppMenu.vue';
+
+
+const userStore = useUserStore();
+
+let orderStore = useOrderStore();
 
 const userSubmitted = ref(false);
 
 const showMenu = ref(false);
 
-const userStore = useUserStore();
+const defaultOrders = ref(userStore.tokens.unclaimed.map(tokenId => ({
+  tokenId,
+  status: 'SHIPPING_UNASSIGNED',
+  jerseySize: 'Large',
+  shippingAddress: {
+    name: '',
+    address1: '',
+    city: '',
+    stateProvince: '',
+    postalCode: '',
+    country: ''
+  }
+})))
+
+let orders = ref(orderStore.orders || defaultOrders.value)
 
 const toggleMenu = () => {
-  console.log('menu click');
-
   showMenu.value = !showMenu.value;
 }
 
-
+onMounted(async () => {
+  await orderStore.loadUserOrders();
+  orders.value = orderStore.orders
+})
 </script>
 
 <template>
@@ -49,7 +70,7 @@ const toggleMenu = () => {
     </div>
     <div v-else class="shipping-forms">
       <h1>Have jersey</h1>
-      <ShippingForm v-for="(tokenId, index) in userStore.tokens.unclaimed" :key="index" :order-id="tokenId" />
+      <ShippingForm v-for="(order, index) in orders" :key="index" :order-id="order.tokenId" :order="order" />
     </div>
   </section>
   <AppMenu @closemenu="toggleMenu" :show="showMenu" />

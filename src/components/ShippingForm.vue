@@ -1,36 +1,31 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/user.store';
-import { computed, ref } from 'vue';
+import { useUserStore } from '@/stores/user.store.rewrite';
+import { computed, reactive, ref, type Ref } from 'vue';
 import { type JerseySizeType, JerseySize, type Order, type OrderStatus, type ShippingAddress, } from '@/models/user.model';
+import { useOrderStore } from '@/stores/order.store';
 
 const props = defineProps({
   orderId: String,
   order: Object
 });
 
+defineEmits(['submit'])
+
 const userStore = useUserStore();
+const orderStore = useOrderStore()
 
-const order = computed(() => userStore.orders[(props.orderId || '')]);
+const order: Ref<Order> = ref(props.order as Order)
+console.log({ order });
 
-const disableForm = ref(order.value?.status !== 'SHIPPING_UNASSIGNED');
+const disableForm = ref(order.value.status !== 'SHIPPING_UNASSIGNED');
 
-const showConfirmation = computed(() => order.value?.status !== 'SHIPPING_UNASSIGNED');
+const showConfirmation = computed(() => order.value.status !== 'SHIPPING_UNASSIGNED');
 
 const jerseySizes: JerseySizeType[] = [
   'Small',
   'Medium',
   'Large',
-  'XLarge',
-]
-
-const shippingAddress = ref(order.value?.shippingAddress ? { ...order.value.shippingAddress } : {
-  name: '',
-  address1: '',
-  city: '',
-  stateProvince: '',
-  postalCode: '',
-  country: ''
-});
+];
 
 const displayStatus = ref(
   order.value.status === 'SHIPPING_ASSIGNED' ? 'ORDER PLACED' : order.value.status === 'FULFILLED' ? 'ORDER SHIPPED' : 'PLACED ORDER'
@@ -38,23 +33,24 @@ const displayStatus = ref(
 
 const collapsed = ref(true);
 
-const jerseySize = ref(order.value?.jerseySize ? order.value?.jerseySize :
+const jerseySize = ref(order.value.jerseySize ? order.value.jerseySize :
   jerseySizes[JerseySize.Large]
 );
 
-const validateData = (order: ShippingAddress): boolean => {
-  return Object.values(shippingAddress.value || {}).every(_ => !!_);
+const validateData = (): boolean => {
+  const validSize = order.value.jerseySize !== null && jerseySizes.includes(order.value.jerseySize)
+  return validSize && Object.values(order.value.shippingAddress || {}).every(_ => !!_);
 }
 
-const handleSubmit = () => {
-  if (validateData(shippingAddress.value)) {
-    userStore.updateOrder(order.value.tokenId || '', {
-      tokenId: order.value.tokenId,
-      jerseySize: jerseySize.value,
-      shippingAddress: shippingAddress.value,
-      status: 'SHIPPING_ASSIGNED',
-    })
+const handleSubmit = async () => {
+  if (validateData()) {
+    console.log({ order });
+
+    const res = await orderStore.addOrder(order.value.tokenId || '', order.value)
+    order.value = res?.find(_ => _.tokenId === order.value.tokenId) as Order
+    location.reload()
   }
+
 }
 
 const toggleCollapse = () => {
@@ -75,47 +71,47 @@ const toggleCollapse = () => {
     </div>
     <div v-if="showConfirmation" class="order-confirmation" :class="{ collapsed: collapsed }">
       <div class="order-status">{{ displayStatus }}</div>
-      <div class="order-addressee">{{ shippingAddress.name }}</div>
-      <div class="order-address1">{{ shippingAddress.address1 }}</div>
-      <div class="order-city">{{ shippingAddress.city }}</div>
-      <div class="order-state">{{ shippingAddress.stateProvince }}</div>
-      <div class="order-postalcode">{{ shippingAddress.postalCode }}</div>
-      <div class="order-country">{{ shippingAddress.country }}</div>
+      <div class="order-addressee">{{ order.shippingAddress?.name }}</div>
+      <div class="order-address1">{{ order.shippingAddress?.address1 }}</div>
+      <div class="order-city">{{ order.shippingAddress?.city }}</div>
+      <div class="order-state">{{ order.shippingAddress?.stateProvince }}</div>
+      <div class="order-postalcode">{{ order.shippingAddress?.postalCode }}</div>
+      <div class="order-country">{{ order.shippingAddress?.country }}</div>
     </div>
     <form v-else class="shipping-form">
       <div class="form-group">
         <label for="shipping-name">Real/Fake Name</label>
-        <input :disabled="disableForm" v-model="shippingAddress.name" type="text" name="shipping-name"
+        <input :disabled="disableForm" v-model="order.shippingAddress!.name" type="text" name="shipping-name"
           id="shipping-name" />
       </div>
       <div class="form-group">
         <label for="shipping-street-address1">Address1</label>
-        <input :disabled="disableForm" v-model="shippingAddress.address1" type="text" name="shipping-street-address1"
-          id="shipping-street-address1" />
+        <input :disabled="disableForm" v-model="order.shippingAddress!.address1" type="text"
+          name="shipping-street-address1" id="shipping-street-address1" />
       </div>
       <div class="form-group">
         <label for="shipping-city">City</label>
-        <input :disabled="disableForm" v-model="shippingAddress.city" type="text" name="shipping-city"
+        <input :disabled="disableForm" v-model="order.shippingAddress!.city" type="text" name="shipping-city"
           id="shipping-city" />
       </div>
       <div class="form-group">
         <label for="shipping-state">State/Province</label>
-        <input :disabled="disableForm" v-model="shippingAddress.stateProvince" type="text" name="shipping-state"
+        <input :disabled="disableForm" v-model="order.shippingAddress!.stateProvince" type="text" name="shipping-state"
           id="shipping-state" />
       </div>
       <div class="form-group">
         <label for="shipping-postalcode">Postal Code</label>
-        <input :disabled="disableForm" v-model="shippingAddress.postalCode" type="text" name="shipping-postalcode"
+        <input :disabled="disableForm" v-model="order.shippingAddress!.postalCode" type="text" name="shipping-postalcode"
           id="shipping-postalcode" />
       </div>
       <div class="form-group">
         <label for="shipping-country">Country</label>
-        <input :disabled="disableForm" v-model="shippingAddress.country" type="text" name="shipping-country"
+        <input :disabled="disableForm" v-model="order.shippingAddress!.country" type="text" name="shipping-country"
           id="shipping-country" />
       </div>
       <div class="form-group">
         <label for="jersey-size">Size</label>
-        <select :disabled="disableForm" v-model="jerseySize" name="jersey-size" id="jersey-size">
+        <select :disabled="disableForm" v-model="order.jerseySize" name="jersey-size" id="jersey-size">
           <option v-for="(size, index) in jerseySizes" :value="size">{{ size }}</option>
         </select>
       </div>

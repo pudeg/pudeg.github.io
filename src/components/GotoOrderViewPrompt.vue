@@ -15,22 +15,31 @@ const checkboxes = {
   checked: '✅',
   unchecked: '🔲'
 }
+
+const userStore = useUserStore();
+
+const displayState2 = computed(() => ({
+  connect: !userStore.isConnected,
+  hasNoTokens: userStore.isConnected && !userStore.claimedAndClaimableTokens.length,
+  hasClaimedTokens: userStore.isConnected && userStore.tokens.claimedByUser.length,
+  hasUnclaimedTokens: userStore.isConnected && userStore.tokens.unclaimed.length,
+}))
+
+const isVIP = computed(() => !!displayState2.value.hasClaimedTokens || !!displayState2.value.hasUnclaimedTokens);
 const displayState = computed(() => userStore.tokens.unclaimed.length ? displayStates.placeOrder : userStore.isConnected ? displayStates.mintToken : displayStates.connect);
-const ctaTextContent = computed(() => displayState.value === displayStates.placeOrder ? 'Place my Jersey Orders!' : 'Mint mi777 tokens');
-const backgroundColor = computed(() => displayState.value === displayStates.placeOrder ? 'var(--order-prompt-mint)' : 'var(--order-prompt-red)');
+const ctaTextContent = computed(() => isVIP.value ? 'Place my Jersey Orders!' : 'Mint mi777 tokens');
+const backgroundColor = computed(() => isVIP.value ? 'var(--order-prompt-mint)' : 'var(--order-prompt-red)');
 
 
 const handleCtaClick = async () => {
-  if (displayState.value === displayStates.mintToken) {
+  if (displayState2.value.hasNoTokens) {
     const popup = open(CONSTS.scatterMintUrl, 'Mint your Milady!', 'popup=true');
   }
   else {
     router.push('zk-shipping');
-
   }
 };
 
-const userStore = useUserStore();
 
 const currentRoute = useRoute();
 
@@ -40,7 +49,7 @@ const setUserClosed = (state?: boolean) => {
   userClosed.value = state ? state : !userClosed.value
 };
 
-const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('zk-shipping') && (userStore.tokens.unclaimed || userStore.isConnected) && userClosed.value !== true);
+const show = computed(() => !currentRoute.name?.toString().toLowerCase().includes('zk-shipping') && (userStore.tokens.unclaimed.length || userStore.isConnected) && userClosed.value !== true);
 
 </script>
 
@@ -49,7 +58,7 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
     <section id="prompt-header-close">
       <button @click="setUserClosed(true)" id="close-prompt">X</button>
     </section>
-    <section id="prompt-header-left" v-if="displayState === displayStates.placeOrder">
+    <section id="prompt-header-left" v-if="isVIP">
       <div class="prompt-row">
         <div>✅ Great job! You minted {{ userStore.totalTokensMinted }} mi777 Jersey Tokens.</div>
         <div>{{ userStore.tokens.unclaimed.length ? "🔲 But you've only placed" : "✅ And you've placed" }} {{
@@ -65,7 +74,7 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
         <div class="text--purple">w/ the mi777 privacy-enabled shipping experience!</div>
       </div>
     </section>
-    <section id="prompt-header-left" v-if="displayState === displayStates.mintToken">
+    <section id="prompt-header-left" v-if="displayState2.hasNoTokens">
       <div class="prompt-row column">
         <div>⛔ You need to mint mi777 first to place your Jersey orders!</div>
         <div class="text--bold">Mint then come back + Refresh</div>
@@ -84,7 +93,6 @@ const show = computed(() => !currentRoute.name?.toString().toLowerCase().include
     </section>
 
   </header>
-
 </template>
 
 <style scoped>
