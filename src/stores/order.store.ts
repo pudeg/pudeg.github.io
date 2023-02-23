@@ -60,7 +60,7 @@ export const useOrderStore = defineStore('orders', () => {
   const addOrder = async (tokenId: string, data: Partial<Order>) => {
     if (!(userStore.isConnected && userStore.wallet)) return null;
 
-    const endpoint = `${ CONSTS.createUserOrderLocal }`;
+    const endpoint = `${ CONSTS.createUserOrderRemote }`;
 
     const response: {} = await (await fetch(endpoint, {
       method: 'POST',

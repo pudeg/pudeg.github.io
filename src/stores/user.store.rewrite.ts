@@ -69,7 +69,7 @@ export const useUserStore = defineStore('user', () => {
   const setState = async (wallet: string) => {
     if (!(isConnected && wallet)) return null;
 
-    const endpoint = `${ CONSTS.getUserStateLocal }/${ wallet }`;
+    const endpoint = `${ CONSTS.getUserStateRemote }/${ wallet }`;
 
     const response: UserModel = await (await fetch(endpoint, {
       method: 'GET',

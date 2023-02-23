@@ -102,7 +102,7 @@ export const useUserStore = defineStore('user', () => {
   const queryWalletForTokens = async (wallet?: string): Promise<WalletHoldingResponse | null> => {
     if (!(isConnected && wallet)) return null;
 
-    const endpoint = `${ CONSTS.getUserStateLocal }/${ wallet }`;
+    const endpoint = `${ CONSTS.getUserStateRemote }/${ wallet }`;
 
     try {
       const holdings: WalletHoldingResponse = await (await fetch(endpoint, {
