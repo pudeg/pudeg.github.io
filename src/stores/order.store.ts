@@ -57,14 +57,14 @@ export const useOrderStore = defineStore('orders', () => {
     return userOrderState.value.find(_ => _.tokenId === tokenId) || null;
   }
 
-  const addOrder = async (tokenId: string, data: Partial<Order>) => {
+  const addOrder = async (tokenId: string, data: Ref<Partial<Order>>) => {
     if (!(userStore.isConnected && userStore.wallet)) return null;
 
     const endpoint = `${ CONSTS.createUserOrderRemote }`;
 
     const response: {} = await (await fetch(endpoint, {
       method: 'POST',
-      body: JSON.stringify({ order: data, wallet: userStore.wallet, tokenId })
+      body: JSON.stringify({ order: data.value as Order, wallet: userStore.wallet, tokenId })
     })).json();
 
     await loadUserOrders()
