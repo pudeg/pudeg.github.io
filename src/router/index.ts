@@ -1,25 +1,25 @@
-import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
-import { macBookPro16FrontEndData, } from "@/data/home-view-data";
-import { useUserStore } from "@/stores/user.store.rewrite";
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '@/views/HomeView.vue';
+import { macBookPro16FrontEndData, } from '@/data/home-view-data';
+import { useUserStore } from '@/stores/user.store';
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "",
-      name: "home",
+      path: '',
+      name: 'home',
       component: HomeView,
       props: { ...macBookPro16FrontEndData },
     },
     {
-      path: "/zk-shipping",
-      name: "zk-shipping",
-      component: () => import("../views/VIPView.vue"),
+      path: '/zk-shipping',
+      name: 'zk-shipping',
+      component: () => import('../views/VIPView.vue'),
     },
     {
-      path: "/home",
+      path: '/home',
       component: HomeView,
       props: { ...macBookPro16FrontEndData },
     },

@@ -1,20 +1,9 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user.store.rewrite";
-import { computed, ref } from "vue";
-import router from "@/router";
-import { useRoute } from "vue-router";
-import { CONSTS } from "@/data/Constants";
-
-const displayStates = {
-  connect: 'connect',
-  mintToken: 'mintToken',
-  placeOrder: 'placeOrder'
-}
-
-const checkboxes = {
-  checked: '✅',
-  unchecked: '🔲'
-}
+import { useUserStore } from '@/stores/user.store';
+import { computed, ref } from 'vue';
+import router from '@/router';
+import { useRoute } from 'vue-router';
+import { CONSTS } from '@/data/Constants';
 
 const userStore = useUserStore();
 
@@ -26,7 +15,6 @@ const displayState2 = computed(() => ({
 }))
 
 const isVIP = computed(() => !!displayState2.value.hasClaimedTokens || !!displayState2.value.hasUnclaimedTokens);
-const displayState = computed(() => userStore.tokens.unclaimed.length ? displayStates.placeOrder : userStore.isConnected ? displayStates.mintToken : displayStates.connect);
 const ctaTextContent = computed(() => isVIP.value ? 'Place my Jersey Orders!' : 'Mint mi777 tokens');
 const backgroundColor = computed(() => isVIP.value ? 'var(--order-prompt-mint)' : 'var(--order-prompt-red)');
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import router from "@/router";
-import { useUserStore } from "@/stores/user.store.rewrite";
-import { computed } from "vue";
+import router from '@/router';
+import { useUserStore } from '@/stores/user.store';
+import { computed } from 'vue';
 
 const userStore = useUserStore();
 

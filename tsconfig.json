@@ -6,7 +6,7 @@
     "src/**/*.vue",
     "*/.js",
     "vite.config.*",
-    "vitest.config.*",
+    "vitest.config.*", "src/stores/.user.store.ts", "src/stores/.user.store.ts",
   ],
   "compilerOptions": {
     "types": [

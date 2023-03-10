@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/user.store.rewrite';
-import { computed, reactive, ref, type Ref } from 'vue';
-import { type JerseySizeType, JerseySize, type Order, type OrderStatus, type ShippingAddress, } from '@/models/user.model';
+import { computed, ref, type Ref } from 'vue';
+import { type JerseySizeType, JerseySize, type Order } from '@/models/user.model';
 import { useOrderStore } from '@/stores/order.store';
 
 const props = defineProps({
@@ -11,11 +10,9 @@ const props = defineProps({
 
 defineEmits(['submit'])
 
-const userStore = useUserStore();
 const orderStore = useOrderStore()
 
 const order: Ref<Order> = ref(props.order as Order)
-console.log({ order });
 
 const disableForm = ref(order.value.status !== 'SHIPPING_UNASSIGNED');
 
@@ -44,10 +41,10 @@ const validateData = (): boolean => {
 
 const handleSubmit = async () => {
   if (validateData()) {
-    console.log({ order });
-
     const res = await orderStore.addOrder(order.value.tokenId || '', order.value)
-    order.value = res?.find(_ => _.tokenId === order.value.tokenId) as Order
+
+    order.value = res || order.value;
+
     location.reload()
   }
 

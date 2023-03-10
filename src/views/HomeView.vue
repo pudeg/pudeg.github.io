@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user.store";
+import { useUserStore } from '@/stores/user.store';
 import Group90 from '@/components/Group90.vue';
-import { ref } from "vue";
-import router from "@/router";
-import { CONSTS } from "@/data/Constants";
-import { useUIStore } from "@/stores/ui.store";
+import { ref } from 'vue';
+import router from '@/router';
+import { CONSTS } from '@/data/Constants';
+import { useUIStore } from '@/stores/ui.store';
 defineProps([
   "xXtgonqzggoeUnsplash1",
   "spanText1",
@@ -217,7 +217,9 @@ defineProps([
 
 
 const userStore = useUserStore();
+
 const uiStore = useUIStore();
+
 const clickedMint = ref(false);
 
 const handleMintClick = (e: UIEvent) => {
@@ -225,7 +227,7 @@ const handleMintClick = (e: UIEvent) => {
   const popup = open(CONSTS.scatterMintUrl, 'Mint your Milady!', 'popup=true');
 }
 const handleBuyMyJerseyClick = (e: UIEvent) => {
-  if (userStore.hasBalance) {
+  if (userStore.totalTokensMinted ) {
     router.push('/zk-shipping');
   }
 }

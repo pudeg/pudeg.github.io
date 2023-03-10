@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
-import ConnectButton from "@/components/ConnectButton.vue";
-import GotoOrderViewPrompt from "@/components/GotoOrderViewPrompt.vue";
-import Gallery from "@/components/Gallery.vue";
-// import { useUserStore } from "@/stores/user.store";
-import { useUserStore } from "./stores/user.store.rewrite";
+import { RouterView } from 'vue-router';
+import ConnectButton from '@/components/ConnectButton.vue';
+import GotoOrderViewPrompt from '@/components/GotoOrderViewPrompt.vue';
+import Gallery from '@/components/Gallery.vue';
+import { useUserStore } from './stores/user.store';
 
 // import { exportFirestore } from '@/firestore/export-firestore'
 // const exportDb = await exportFirestore()
-// import { butthole } from './firestore/reset-token-collection'
 // console.log({ exportDb });
 
 const userStore = useUserStore();
-// const userStore2 = useUserStore2();
 
 userStore.init();
-// userStore2.init();
 
 </script>
 

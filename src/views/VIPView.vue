@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/user.store.rewrite';
+import { useUserStore } from '@/stores/user.store';
 import { useOrderStore } from '@/stores/order.store';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import ShippingForm from '@/components/ShippingForm.vue';
 import AppMenu from '@/components/AppMenu.vue';
-
 
 const userStore = useUserStore();
 
@@ -14,21 +13,7 @@ const userSubmitted = ref(false);
 
 const showMenu = ref(false);
 
-const defaultOrders = ref(userStore.tokens.unclaimed.map(tokenId => ({
-  tokenId,
-  status: 'SHIPPING_UNASSIGNED',
-  jerseySize: 'Large',
-  shippingAddress: {
-    name: '',
-    address1: '',
-    city: '',
-    stateProvince: '',
-    postalCode: '',
-    country: ''
-  }
-})))
-
-let orders = ref(orderStore.orders || defaultOrders.value)
+const orders = computed(() => orderStore.orders)
 
 const toggleMenu = () => {
   showMenu.value = !showMenu.value;
@@ -36,7 +21,6 @@ const toggleMenu = () => {
 
 onMounted(async () => {
   await orderStore.loadUserOrders();
-  orders.value = orderStore.orders
 })
 </script>
 
