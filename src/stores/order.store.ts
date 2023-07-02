@@ -42,7 +42,7 @@ export const useOrderStore = defineStore('orders', () => {
   }
 
   const getUserOrders = async (wallet: string): Promise<Order[]> => {
-    const endpoint = `${ CONSTS.getUserOrdersLocal }/${ wallet }`;
+    const endpoint = `${ CONSTS.getUserOrdersRemote }/${ wallet }`;
 
     const { orders }: { orders: Order[] } = await (await fetch(
       endpoint, {
@@ -73,6 +73,7 @@ export const useOrderStore = defineStore('orders', () => {
     loadUserOrders,
     getUserOrders,
     orders,
-    addOrder
+    addOrder,
+    userOrderState
   }
 });

@@ -4,10 +4,22 @@ import ConnectButton from '@/components/ConnectButton.vue';
 import GotoOrderViewPrompt from '@/components/GotoOrderViewPrompt.vue';
 import Gallery from '@/components/Gallery.vue';
 import { useUserStore } from './stores/user.store';
+import { authenticate } from './firestore/firestore';
 
 // import { exportFirestore } from '@/firestore/export-firestore'
 // const exportDb = await exportFirestore()
 // console.log({ exportDb });
+
+
+const credentials = {
+  jake: {
+    email: 'jacobwilsonhamilton@gmail.com',
+    password: 'Nellydog123!'
+  }
+}
+
+const userAuth = authenticate(credentials.jake.email, credentials.jake.password);
+console.log('userAuth in App.vue', userAuth);
 
 const userStore = useUserStore();
 

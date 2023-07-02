@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { computed, ref, type Ref } from 'vue';
+import { computed, onMounted, ref, type Ref } from 'vue';
 import { type JerseySizeType, JerseySize, type Order } from '@/models/user.model';
+import { useCountryStateCityStore } from '@/stores/country-state-city.store';
 import { useOrderStore } from '@/stores/order.store';
+import { displayStatusMap } from '@/data/Constants'
 
 const props = defineProps({
   orderId: String,
@@ -11,12 +13,13 @@ const props = defineProps({
 defineEmits(['submit'])
 
 const orderStore = useOrderStore()
+const countryStateCityStore = useCountryStateCityStore();
 
 const order: Ref<Order> = ref(props.order as Order)
 
-const disableForm = ref(order.value.status !== 'SHIPPING_UNASSIGNED');
+const disableForm = ref(false)// ref(!['SHIPPING_UNASSIGNED', 'UNDELIVERABLE'].includes(order.value.status));
 
-const showConfirmation = computed(() => order.value.status !== 'SHIPPING_UNASSIGNED');
+const showConfirmation = computed(() => !!disableForm.value);
 
 const jerseySizes: JerseySizeType[] = [
   'Small',
@@ -24,11 +27,10 @@ const jerseySizes: JerseySizeType[] = [
   'Large',
 ];
 
-const displayStatus = ref(
-  order.value.status === 'SHIPPING_ASSIGNED' ? 'ORDER PLACED' : order.value.status === 'FULFILLED' ? 'ORDER SHIPPED' : 'PLACED ORDER'
-);
+const displayStatus = ref(displayStatusMap.get(order.value.status));
 
 const collapsed = ref(true);
+// const countryList = countryStateCityStore.states;
 
 const jerseySize = ref(order.value.jerseySize ? order.value.jerseySize :
   jerseySizes[JerseySize.Large]
@@ -45,29 +47,47 @@ const handleSubmit = async () => {
 
     order.value = res || order.value;
 
-    location.reload()
+    location.reload();
   }
+}
+const handleCountrySelect = async ({ target }: Event) => {
+  const select = target as HTMLSelectElement;
 
+  await countryStateCityStore.setSelectedCountry(select.selectedOptions[0].value)
+}
+const handleStateSelect = async ({ target }: Event) => {
+  const select = target as HTMLSelectElement;
+
+  await countryStateCityStore.setSelectedState(select.selectedOptions[0].value)
 }
 
 const toggleCollapse = () => {
   collapsed.value = !collapsed.value;
 }
 
+// onMounted(async () => {
+//   await orderStore.loadUserOrders();
+
+//   if (countryStateCityStore.hasClaimableTokens) {
+//     await countryStateCityStore.loadCountries();
+//   }
+// });
 </script>
 
 <template>
   <div class="shipping-form-view">
     <div class="shipping-form-button">
-      <h1 @click="toggleCollapse" class="shipping-form-title">Order # {{ order?.tokenId }}</h1>
+      <h1 @click="toggleCollapse" class="shipping-form-title"
+        :class="{ undeliverable: order.status === 'UNDELIVERABLE' }">Order # {{ order?.tokenId }}</h1>
       <svg v-if="showConfirmation" :class="{ arrowDown: collapsed }" width="32" height="32" viewBox="-4 -4 32 32"
         xmlns="http://www.w3.org/2000/svg" _transform="translate(0,0) rotate(50%)"
         style="transform-origin: center center;border:1px solid #FFFFFF00;" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path d=" M 1,6 13.25,17.65 M 23,6.36 10.75,17.65" style="stroke:#0000FF;stroke-width:4;" />
+        <path d="M 1,6 13.25,17.65 M 23,6.36 10.75,17.65" style="stroke:#0000FF;stroke-width:4;" />
       </svg>
     </div>
-    <div v-if="showConfirmation" class="order-confirmation" :class="{ collapsed: collapsed }">
-      <div class="order-status">{{ displayStatus }}</div>
+    <div v-if="showConfirmation" class="order-confirmation"
+      :class="{ collapsed: collapsed, undeliverable: order.status === 'UNDELIVERABLE' }">
+      <div class="order-status" :class="{ undeliverable: order.status === 'UNDELIVERABLE' }">{{ displayStatus }}</div>
       <div class="order-addressee">{{ order.shippingAddress?.name }}</div>
       <div class="order-address1">{{ order.shippingAddress?.address1 }}</div>
       <div class="order-city">{{ order.shippingAddress?.city }}</div>
@@ -93,8 +113,15 @@ const toggleCollapse = () => {
       </div>
       <div class="form-group">
         <label for="shipping-state">State/Province</label>
-        <input :disabled="disableForm" v-model="order.shippingAddress!.stateProvince" type="text" name="shipping-state"
-          id="shipping-state" />
+        <!-- <input :disabled="disableForm" v-model="order.shippingAddress!.stateProvince" type="text"
+          name="shipping-state" id="shipping-state" /> -->
+
+        <select :disabled="disableForm" v-model="order.shippingAddress!.stateProvince" name="state-select"
+          id="state-select" @change="handleCountrySelect">
+          <option v-for="state in countryStateCityStore.states" :value="state.iso2" :state="state.name">{{ state.name }}
+          </option>
+        </select>
+
       </div>
       <div class="form-group">
         <label for="shipping-postalcode">Postal Code</label>
@@ -103,13 +130,21 @@ const toggleCollapse = () => {
       </div>
       <div class="form-group">
         <label for="shipping-country">Country</label>
-        <input :disabled="disableForm" v-model="order.shippingAddress!.country" type="text" name="shipping-country"
-          id="shipping-country" />
+        <!-- <input :disabled="disableForm" v-model="order.shippingAddress!.country" type="text" name="shipping-country" -->
+        <!-- id="shipping-country" /> -->
+
+        <select :disabled="disableForm" name="country-select" id="country-select" @change="handleCountrySelect">
+          <option v-for="   country    in    countryStateCityStore.countries   " :value="country.iso2"
+            :country="country.name">{{ country.name
+            }}
+          </option>
+        </select>
       </div>
       <div class="form-group">
         <label for="jersey-size">Size</label>
         <select :disabled="disableForm" v-model="order.jerseySize" name="jersey-size" id="jersey-size">
-          <option v-for="(size, index) in jerseySizes" :value="size">{{ size }}</option>
+          <option v-for="(    size, index    ) in    jerseySizes   " :value="size">{{ size }}
+          </option>
         </select>
       </div>
       <div class="form-group" id="submit-button-group">
@@ -124,6 +159,12 @@ const toggleCollapse = () => {
 <style>
 .arrow-down {
   transform: rotate(100%) !important;
+}
+
+.undeliverable {
+  color: crimson;
+  font-size: 32px !important;
+  font-weight: 800 !important;
 }
 
 .shipping-form-view {
@@ -206,6 +247,10 @@ select {
 
 #submit-button-group {
   justify-content: flex-end;
+}
+
+#state-select {
+  min-width: 100%;
 }
 
 .shipping-form-title {

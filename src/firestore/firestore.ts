@@ -1,5 +1,6 @@
 import type { Order, UserModel } from "@/models/user.model";
 import { initializeApp } from "firebase/app";
+import { getAuth, signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { Timestamp, getDocs, writeBatch, type DocumentData, type DocumentSnapshot, type PartialWithFieldValue, type SetOptions, type Unsubscribe, Query, QuerySnapshot, Transaction, type TransactionOptions, collectionGroup, } from 'firebase/firestore'
 import {
   Firestore,
@@ -33,6 +34,29 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 let p = runTransaction
 const instance: Firestore = getFirestore(app);
+
+
+
+
+export const authenticate = async (email: string, password: string): Promise<any> => {
+  const auth = getAuth();
+  let result = null;
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    const user = userCredential.user;
+
+    return {
+      status: 'success',
+      user,
+    }
+  } catch (error: any) {
+    console.warn('AUTHENTICATION ERROR', { error });
+    return {
+      status: 'failure',
+      error,
+    }
+  }
+}
 
 
 export const firestore = {

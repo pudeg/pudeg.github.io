@@ -28,7 +28,7 @@ export interface ShippingAddress extends DocumentBase {
   country: string;
 }
 
-export type OrderStatus = 'SHIPPING_UNASSIGNED' | 'SHIPPING_ASSIGNED' | 'FULFILLED' | 'CLOSED';
+export type OrderStatus = 'SHIPPING_UNASSIGNED' | 'SHIPPING_ASSIGNED' | 'FULFILLED' | 'CLOSED' | 'UNDELIVERABLE';
 
 export interface Order extends DocumentBase {
   id?: string;
